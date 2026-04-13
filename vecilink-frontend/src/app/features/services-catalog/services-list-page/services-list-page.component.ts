@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServiceCatalogService } from '../../../core/services/service-catalog.service';
 import { FavoriteService } from '../../../core/services/favorite.service';
@@ -29,8 +29,9 @@ export class ServicesListPageComponent implements OnInit {
     private serviceCatalogService: ServiceCatalogService,
     private favoriteService: FavoriteService,
     private authService: AuthService,
-    private route: ActivatedRoute
-  ) {}
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
     // Apply query params from hero search
@@ -46,8 +47,15 @@ export class ServicesListPageComponent implements OnInit {
 
     const user = this.authService.getCurrentUser();
     if (user) {
-      this.favoriteService.listFavorites(user.id).subscribe(favs => {
-        this.favoriteIds = new Set(favs.map(f => f.serviceId));
+      this.favoriteService.listFavorites(user.id).subscribe({
+        next: (favs) => {
+          this.favoriteIds = new Set(favs.map(f => f.serviceId));
+          this.cdr.markForCheck();
+        },
+        error: (error) => {
+          console.error('Error loading favorites:', error);
+          this.favoriteIds = new Set();
+        }
       });
     }
   }
@@ -55,11 +63,21 @@ export class ServicesListPageComponent implements OnInit {
   loadServices(): void {
     this.isLoading = true;
     const { keyword, categoryId, neighborhood } = this.currentFilters;
-    this.serviceCatalogService.searchServices(keyword, categoryId ?? undefined, neighborhood).subscribe(services => {
-      this.allServices = services;
-      this.currentPage = 1;
-      this.updatePagination();
-      this.isLoading = false;
+    this.serviceCatalogService.searchServices(keyword, categoryId ?? undefined, neighborhood).subscribe({
+      next: (services) => {
+        this.allServices = services;
+        this.currentPage = 1;
+        this.updatePagination();
+        this.isLoading = false;
+        // Forzar detección de cambios
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        console.error('Error loading services:', error);
+        this.allServices = [];
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      }
     });
   }
 

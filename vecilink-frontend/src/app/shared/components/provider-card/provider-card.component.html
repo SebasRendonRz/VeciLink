@@ -2,21 +2,27 @@
   <div class="card-body">
     <div class="d-flex align-items-center gap-3 mb-3">
       <div class="provider-avatar">
-        <img *ngIf="provider.photoUrl; else initials" [src]="provider.photoUrl" [alt]="provider.providerName" class="rounded-circle" width="48" height="48">
-        <ng-template #initials>
-          <div class="avatar-initials">{{ provider.providerName.charAt(0) }}</div>
-        </ng-template>
+        @if (provider.photoUrl) {
+        <img [src]="provider.photoUrl" [alt]="provider.providerName" class="rounded-circle" width="48" height="48">
+        } @else {
+        <div class="avatar-initials">{{ provider.providerName.charAt(0) }}</div>
+        }
       </div>
       <div class="flex-grow-1 overflow-hidden">
         <h6 class="mb-0 fw-semibold text-truncate">{{ provider.providerName }}</h6>
         <span class="small text-muted"><i class="bi bi-geo-alt me-1"></i>{{ provider.neighborhood }}</span>
       </div>
-      <div class="rank-badge" *ngIf="rank">
+      @if (rank) {
+      <div class="rank-badge">
         <span class="text-muted small">#{{ rank }}</span>
       </div>
+      }
     </div>
-    <app-featured-badge *ngIf="provider.isFeatured"></app-featured-badge>
-    <p class="card-text text-muted small mt-2">{{ provider.description | slice:0:80 }}{{ (provider.description?.length ?? 0) > 80 ? '...' : '' }}</p>
+    @if (provider.isFeatured) {
+    <app-featured-badge></app-featured-badge>
+    }
+    <p class="card-text text-muted small mt-2">{{ provider.description | slice:0:80 }}{{ (provider.description?.length
+      ?? 0) > 80 ? '...' : '' }}</p>
     <div class="mt-2">
       <app-rating-stars [stars]="provider.ratingAverage ?? 0"></app-rating-stars>
     </div>

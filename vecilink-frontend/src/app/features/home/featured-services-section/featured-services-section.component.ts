@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ServiceCatalogService } from '../../../core/services/service-catalog.service';
 import { ServiceItem } from '../../../core/models';
 
@@ -12,11 +12,15 @@ export class FeaturedServicesSectionComponent implements OnInit {
   featuredServices: ServiceItem[] = [];
   favoriteIds = new Set<number>();
 
-  constructor(private serviceCatalogService: ServiceCatalogService) {}
+  constructor(
+    private serviceCatalogService: ServiceCatalogService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.serviceCatalogService.getFeaturedServices().subscribe(services => {
       this.featuredServices = services;
+      this.cdr.markForCheck();
     });
   }
 

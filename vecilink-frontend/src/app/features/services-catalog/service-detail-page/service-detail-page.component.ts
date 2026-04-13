@@ -28,7 +28,7 @@ export class ServiceDetailPageComponent implements OnInit {
     private providerService: ProviderService,
     private favoriteService: FavoriteService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -43,9 +43,12 @@ export class ServiceDetailPageComponent implements OnInit {
       this.service = service;
       this.isLoading = false;
 
-      this.providerService.getProviderProfile(service.providerId).subscribe(p => {
-        this.provider = p;
-      });
+      const providerId = service.providerId || service.providerProfileId;
+      if (providerId) {
+        this.providerService.getProviderProfile(providerId).subscribe(p => {
+          this.provider = p;
+        });
+      }
 
       const user = this.authService.getCurrentUser();
       if (user) {

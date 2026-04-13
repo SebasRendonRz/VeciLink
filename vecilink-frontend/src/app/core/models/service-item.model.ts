@@ -1,21 +1,27 @@
 export interface ServiceItem {
   id: number;
-  providerId: number;
   serviceName: string;
-  categoryId: number;
-  categoryName?: string;
-  description: string;
   neighborhood: string;
   zone?: string;
-  whatsapp: string;
-  schedule: string;
-  availability: string;
   price?: number;
+  isFeatured: boolean;
+  isActive?: boolean;
+  categoryName?: string;
+  providerProfileId?: number;
+  providerId?: number;
+  providerName?: string;
+  providerRatingAverage?: number;
+  createdAt?: string;
+
+  // Campos opcionales para otros endpoints/usos
+  categoryId?: number;
+  description?: string;
+  whatsapp?: string;
+  schedule?: string;
+  availability?: string;
   photos?: string[];
   latitude?: number;
   longitude?: number;
-  isFeatured: boolean;
   averageRating?: number;
   totalRatings?: number;
-  createdAt?: string;
 }

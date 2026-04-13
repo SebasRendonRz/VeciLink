@@ -1,8 +1,9 @@
 <app-admin-topbar title="Publicidad"></app-admin-topbar>
 
 <div class="p-4">
-  <app-alert *ngIf="alertMessage" [type]="alertType" [message]="alertMessage"
-    (closed)="alertMessage = ''"></app-alert>
+  @if (alertMessage) {
+  <app-alert [type]="alertType" [message]="alertMessage" (closed)="alertMessage = ''"></app-alert>
+  }
 
   <div class="d-flex justify-content-end mb-3">
     <button class="btn btn-primary btn-sm" (click)="openCreate()">
@@ -10,58 +11,66 @@
     </button>
   </div>
 
-  <app-loader *ngIf="isLoading"></app-loader>
+  @if (isLoading) {
+  <app-loader></app-loader>
+  }
 
-  <ng-container *ngIf="!isLoading">
-    <div class="card border-0 shadow-sm">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead class="table-light">
-            <tr>
-              <th>Título</th>
-              <th>Imagen</th>
-              <th>Inicio</th>
-              <th>Fin</th>
-              <th>Estado</th>
-              <th class="text-end">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let ad of ads">
-              <td class="fw-semibold">{{ ad.title }}</td>
-              <td>
-                <img [src]="ad.imageUrl" alt="preview" width="60" height="36"
-                  style="object-fit:cover;border-radius:4px;" onerror="this.style.display='none'">
-              </td>
-              <td class="text-muted small">{{ ad.startDate | date:'dd/MM/yyyy' }}</td>
-              <td class="text-muted small">{{ ad.endDate | date:'dd/MM/yyyy' }}</td>
-              <td>
-                <span class="badge" [ngClass]="ad.isActive ? 'bg-success' : 'bg-secondary'">
-                  {{ ad.isActive ? 'Activo' : 'Inactivo' }}
-                </span>
-              </td>
-              <td class="text-end">
-                <button class="btn btn-sm btn-outline-secondary me-1" (click)="openEdit(ad)" title="Editar">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <button class="btn btn-sm btn-outline-warning" (click)="deactivate(ad)"
-                  *ngIf="ad.isActive" title="Desactivar">
-                  <i class="bi bi-pause-circle"></i>
-                </button>
-              </td>
-            </tr>
-            <tr *ngIf="ads.length === 0">
-              <td colspan="6" class="text-center text-muted py-4">No hay anuncios.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  @if (!isLoading) {
+  <div class="card border-0 shadow-sm">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+          <tr>
+            <th>Título</th>
+            <th>Imagen</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th class="text-end">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (ad of ads; track ad.id) {
+          <tr>
+            <td class="fw-semibold">{{ ad.title }}</td>
+            <td>
+              <img [src]="ad.imageUrl" alt="preview" width="60" height="36" style="object-fit:cover;border-radius:4px;"
+                onerror="this.style.display='none'">
+            </td>
+            <td class="text-muted small">{{ ad.startDate | date:'dd/MM/yyyy' }}</td>
+            <td class="text-muted small">{{ ad.endDate | date:'dd/MM/yyyy' }}</td>
+            <td>
+              <span class="badge" [ngClass]="ad.isActive ? 'bg-success' : 'bg-secondary'">
+                {{ ad.isActive ? 'Activo' : 'Inactivo' }}
+              </span>
+            </td>
+            <td class="text-end">
+              <button class="btn btn-sm btn-outline-secondary me-1" (click)="openEdit(ad)" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </button>
+              @if (ad.isActive) {
+              <button class="btn btn-sm btn-outline-warning" (click)="deactivate(ad)" title="Desactivar">
+                <i class="bi bi-pause-circle"></i>
+              </button>
+              }
+            </td>
+          </tr>
+          }
+          @if (ads.length === 0) {
+          <tr>
+            <td colspan="6" class="text-center text-muted py-4">No hay anuncios.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
     </div>
-  </ng-container>
+  </div>
+  }
 </div>
 
 <!-- Modal Form -->
-<div *ngIf="showForm" class="modal-backdrop-custom">
+@if (showForm) {
+<div class="modal-backdrop-custom">
   <div class="modal-dialog-custom">
     <div class="modal-header-custom">
       <h5 class="mb-0 fw-bold">{{ editingId !== null ? 'Editar' : 'Nuevo' }} anuncio</h5>
@@ -102,3 +111,4 @@
     </div>
   </div>
 </div>
+}

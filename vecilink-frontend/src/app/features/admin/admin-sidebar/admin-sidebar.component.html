@@ -7,15 +7,15 @@
 
   <!-- Nav links -->
   <ul class="nav flex-column flex-grow-1 px-2 py-3">
-    <li class="nav-item" *ngFor="let item of navItems">
-      <a class="nav-link d-flex align-items-center gap-2 rounded mb-1"
-        [routerLink]="item.route"
-        routerLinkActive="active"
-        [routerLinkActiveOptions]="{ exact: item.route === '/admin' }">
+    @for (item of navItems; track item.route) {
+    <li class="nav-item">
+      <a class="nav-link d-flex align-items-center gap-2 rounded mb-1" [routerLink]="item.route"
+        routerLinkActive="active" [routerLinkActiveOptions]="{ exact: item.route === '/admin' }">
         <i class="bi {{ item.icon }}"></i>
         {{ item.label }}
       </a>
     </li>
+    }
   </ul>
 
   <!-- Footer -->

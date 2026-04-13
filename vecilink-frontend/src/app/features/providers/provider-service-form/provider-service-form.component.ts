@@ -32,7 +32,7 @@ export class ProviderServiceFormComponent implements OnInit {
     private categoryService: CategoryService,
     private providerService: ProviderService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();
@@ -114,6 +114,7 @@ export class ProviderServiceFormComponent implements OnInit {
     const categoryName = this.categories.find(c => c.id === +raw.categoryId)?.name || '';
     const payload = {
       providerId: this.provider.id,
+      providerProfileId: this.provider.id,
       serviceName: raw.serviceName,
       categoryId: +raw.categoryId,
       categoryName,
@@ -125,7 +126,8 @@ export class ProviderServiceFormComponent implements OnInit {
       availability: raw.availability,
       price: raw.price ? +raw.price : undefined,
       photos: raw.photoUrl ? [raw.photoUrl] : [],
-      isFeatured: false
+      isFeatured: false,
+      isActive: true
     };
 
     if (this.isEditMode && this.editServiceId !== null) {
