@@ -1,0 +1,21 @@
+.register-bg {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4a9e 100%);
+  padding: 1rem;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 560px;
+}
+
+.type-card {
+  cursor: pointer;
+  border-radius: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  background: #fff;
+}
+
+.type-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}

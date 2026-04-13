@@ -1,0 +1,133 @@
+/* === Variables globales === */
+:root {
+  --color-primary: #2D6CDF;
+  --color-secondary: #2ECC71;
+  --color-text: #333333;
+  --color-bg-light: #F5F5F5;
+  --color-white: #FFFFFF;
+}
+
+/* === Reset y base === */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--color-text);
+  background-color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* === Layout principal === */
+.page-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+}
+
+/* === Cards === */
+.card-shadow {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  border: none;
+  border-radius: 10px;
+}
+
+.clickable-card {
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.clickable-card:hover {
+  box-shadow: 0 6px 20px rgba(45, 108, 223, 0.15);
+  transform: translateY(-2px);
+}
+
+/* === Badges === */
+.featured-badge {
+  background-color: #f5a623;
+  color: white;
+  font-size: 0.75rem;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+}
+
+/* === Empty state === */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6c757d;
+}
+
+/* === Mapa === */
+.map-container {
+  width: 100%;
+  height: 400px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* === WhatsApp === */
+.whatsapp-btn {
+  background-color: #25D366;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.whatsapp-btn:hover {
+  background-color: #1da851;
+  color: white;
+}
+
+/* === Admin layout === */
+.admin-layout {
+  display: flex;
+  min-height: calc(100vh - 60px);
+}
+
+.admin-sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background-color: #1e2a3a;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: var(--color-bg-light);
+}
+
+/* === Bootstrap overrides === */
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-primary:hover {
+  background-color: #2558c0;
+  border-color: #2558c0;
+}
+
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+a {
+  color: var(--color-primary);
+}

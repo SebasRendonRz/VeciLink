@@ -1,0 +1,30 @@
+<footer class="app-footer mt-auto">
+  <div class="container py-4">
+    <div class="row gy-3">
+      <div class="col-md-4">
+        <h5 class="footer-brand"><i class="bi bi-geo-alt-fill me-1"></i>VeciLink</h5>
+        <p class="footer-desc">Conectamos ciudadanos con prestadores de servicios locales de confianza.</p>
+      </div>
+      <div class="col-md-4">
+        <h6 class="footer-heading">Explorar</h6>
+        <ul class="footer-links list-unstyled">
+          <li><a routerLink="/">Inicio</a></li>
+          <li><a routerLink="/services">Servicios</a></li>
+          <li><a routerLink="/ranking">Ranking</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="footer-heading">Cuenta</h6>
+        <ul class="footer-links list-unstyled">
+          <li><a routerLink="/login">Ingresar</a></li>
+          <li><a routerLink="/register">Registrarse</a></li>
+          <li><a routerLink="/profile">Mi perfil</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <p class="text-center footer-copy mb-0">
+      &copy; {{ currentYear }} VeciLink. Todos los derechos reservados.
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,13 @@
+.page-container {
+  min-height: calc(100vh - 120px);
+  background-color: #f8f9fa;
+}
+
+.service-img {
+  height: 160px;
+  object-fit: cover;
+}
+
+.service-img-placeholder {
+  height: 160px;
+}

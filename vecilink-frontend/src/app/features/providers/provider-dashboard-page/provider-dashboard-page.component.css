@@ -1,0 +1,17 @@
+.provider-avatar {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+}
+
+.quick-link {
+  border-radius: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+  color: inherit;
+}
+
+.quick-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+  color: inherit;
+}

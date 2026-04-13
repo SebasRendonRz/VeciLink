@@ -1,0 +1,31 @@
+<nav class="admin-sidebar d-flex flex-column">
+  <!-- Logo -->
+  <div class="sidebar-header d-flex align-items-center gap-2 px-3 py-3 border-bottom">
+    <i class="bi bi-shield-check text-primary fs-4"></i>
+    <span class="fw-bold text-dark">VeciLink Admin</span>
+  </div>
+
+  <!-- Nav links -->
+  <ul class="nav flex-column flex-grow-1 px-2 py-3">
+    <li class="nav-item" *ngFor="let item of navItems">
+      <a class="nav-link d-flex align-items-center gap-2 rounded mb-1"
+        [routerLink]="item.route"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: item.route === '/admin' }">
+        <i class="bi {{ item.icon }}"></i>
+        {{ item.label }}
+      </a>
+    </li>
+  </ul>
+
+  <!-- Footer -->
+  <div class="sidebar-footer px-3 py-3 border-top">
+    <div class="d-flex align-items-center gap-2 mb-2">
+      <i class="bi bi-person-circle text-muted"></i>
+      <span class="small text-muted">{{ currentUser?.fullName }}</span>
+    </div>
+    <button class="btn btn-outline-danger btn-sm w-100" (click)="logout()">
+      <i class="bi bi-box-arrow-right me-1"></i>Salir
+    </button>
+  </div>
+</nav>

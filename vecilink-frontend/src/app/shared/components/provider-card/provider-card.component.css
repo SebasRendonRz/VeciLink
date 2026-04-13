@@ -1,0 +1,24 @@
+.provider-card {
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.provider-card:hover {
+  box-shadow: 0 6px 20px rgba(45, 108, 223, 0.15);
+  transform: translateY(-2px);
+  cursor: pointer;
+}
+
+.avatar-initials {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--color-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.2rem;
+}

@@ -1,0 +1,66 @@
+<div class="mt-5">
+  <h4 class="fw-bold mb-4">
+    <i class="bi bi-chat-square-text me-2 text-primary"></i>
+    Calificaciones y comentarios
+    <span class="badge bg-secondary ms-2">{{ ratings.length }}</span>
+  </h4>
+
+  <!-- Formulario para usuarios autenticados -->
+  <div class="card border-0 shadow-sm p-4 mb-4" *ngIf="isLoggedIn">
+    <h6 class="fw-semibold mb-3">Deja tu calificación</h6>
+
+    <app-alert
+      *ngIf="successMessage"
+      [message]="successMessage"
+      type="success"
+      (dismissed)="successMessage = ''">
+    </app-alert>
+
+    <div class="mb-3">
+      <app-rating-stars
+        [stars]="selectedStars"
+        [interactive]="true"
+        (rated)="setStars($event)">
+      </app-rating-stars>
+      <small class="text-muted" *ngIf="selectedStars === 0">Selecciona una calificación</small>
+    </div>
+
+    <form [formGroup]="ratingForm" (ngSubmit)="onSubmitRating()">
+      <div class="mb-3">
+        <textarea class="form-control" formControlName="comment" rows="3"
+          placeholder="Comparte tu experiencia (opcional)..."></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary"
+        [disabled]="selectedStars === 0 || isSubmitting">
+        <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm me-2"></span>
+        Enviar calificación
+      </button>
+    </form>
+  </div>
+
+  <!-- Mensaje si no está autenticado -->
+  <div class="alert alert-info" *ngIf="!isLoggedIn">
+    <i class="bi bi-info-circle me-2"></i>
+    <a routerLink="/login">Inicia sesión</a> para dejar tu calificación.
+  </div>
+
+  <!-- Listado de comentarios -->
+  <div class="comments-list">
+    <div class="comment-item card border-0 shadow-sm p-3 mb-3" *ngFor="let rating of ratings">
+      <div class="d-flex justify-content-between align-items-start mb-2">
+        <div>
+          <strong>{{ rating.userName }}</strong>
+          <app-rating-stars [stars]="rating.stars" [interactive]="false" class="ms-2"></app-rating-stars>
+        </div>
+        <small class="text-muted">{{ rating.createdAt | date:'mediumDate' }}</small>
+      </div>
+      <p class="mb-0 text-muted" *ngIf="rating.comment">{{ rating.comment }}</p>
+    </div>
+    <app-empty-state
+      *ngIf="ratings.length === 0"
+      icon="bi-chat"
+      title="Sin comentarios aún"
+      message="Sé el primero en calificar este servicio.">
+    </app-empty-state>
+  </div>
+</div>

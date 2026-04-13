@@ -1,0 +1,56 @@
+<div class="page-container">
+  <div class="container py-4">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+      <h1 class="h3 fw-bold mb-0">Catálogo de servicios</h1>
+      <button class="btn btn-outline-secondary btn-sm" (click)="toggleView()">
+        <i class="bi {{ showMap ? 'bi-grid' : 'bi-map' }} me-1"></i>
+        {{ showMap ? 'Ver lista' : 'Ver mapa' }}
+      </button>
+    </div>
+
+    <!-- Filtros -->
+    <app-search-filters (filtersChanged)="onFiltersChanged($event)"></app-search-filters>
+
+    <div class="mt-4">
+      <!-- Loader -->
+      <app-loader *ngIf="isLoading"></app-loader>
+
+      <!-- Vista mapa -->
+      <ng-container *ngIf="!isLoading && showMap">
+        <app-service-map-view [services]="allServices"></app-service-map-view>
+      </ng-container>
+
+      <!-- Vista lista -->
+      <ng-container *ngIf="!isLoading && !showMap">
+        <!-- Resultados vacíos -->
+        <app-empty-state
+          *ngIf="allServices.length === 0"
+          icon="bi-search"
+          title="Sin resultados"
+          message="No se encontraron servicios con los filtros seleccionados. Intenta con otros términos.">
+        </app-empty-state>
+
+        <!-- Grilla de tarjetas -->
+        <div class="row g-3" *ngIf="allServices.length > 0">
+          <div class="col-12 col-sm-6 col-xl-4" *ngFor="let service of displayedServices">
+            <app-service-card
+              [service]="service"
+              [isFavorite]="favoriteIds.has(service.id)"
+              (favoriteToggled)="onFavoriteToggled($event)">
+            </app-service-card>
+          </div>
+        </div>
+
+        <!-- Paginación -->
+        <div class="mt-4" *ngIf="totalPages > 1">
+          <app-pagination
+            [currentPage]="currentPage"
+            [totalPages]="totalPages"
+            (pageChanged)="onPageChanged($event)">
+          </app-pagination>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

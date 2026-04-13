@@ -1,0 +1,15 @@
+.notification-item {
+  transition: background-color 0.2s;
+}
+.notification-item.unread {
+  background-color: #eef4ff;
+  border-left: 3px solid #2D6CDF;
+}
+.notification-item.read {
+  background-color: #f9f9f9;
+}
+.notif-icon {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+}

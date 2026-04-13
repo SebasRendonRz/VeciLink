@@ -1,0 +1,32 @@
+<div class="row g-3">
+  <div class="col-6 col-lg-3">
+    <div class="stat-card card border-0 shadow-sm p-3 text-center h-100">
+      <i class="bi bi-grid-fill fs-2 text-primary mb-2"></i>
+      <p class="stat-value fw-bold mb-0">{{ stats.activeServices }}</p>
+      <p class="stat-label text-muted small mb-0">Servicios activos</p>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="stat-card card border-0 shadow-sm p-3 text-center h-100">
+      <i class="bi bi-star-fill fs-2 text-warning mb-2"></i>
+      <p class="stat-value fw-bold mb-0">{{ stats.ratingAverage | number:'1.1-1' }}</p>
+      <p class="stat-label text-muted small mb-0">Calificación promedio</p>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="stat-card card border-0 shadow-sm p-3 text-center h-100">
+      <i class="bi bi-chat-dots-fill fs-2 text-success mb-2"></i>
+      <p class="stat-value fw-bold mb-0">{{ stats.totalRequests }}</p>
+      <p class="stat-label text-muted small mb-0">Solicitudes recibidas</p>
+    </div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="stat-card card border-0 shadow-sm p-3 text-center h-100">
+      <i class="bi bi-patch-check-fill fs-2 mb-2"
+        [class.text-warning]="stats.isFeatured"
+        [class.text-secondary]="!stats.isFeatured"></i>
+      <p class="stat-value fw-bold mb-0">{{ stats.isFeatured ? 'Activo' : 'Inactivo' }}</p>
+      <p class="stat-label text-muted small mb-0">Perfil destacado</p>
+    </div>
+  </div>
+</div>

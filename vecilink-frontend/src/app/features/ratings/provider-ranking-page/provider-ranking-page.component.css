@@ -1,0 +1,24 @@
+.page-container {
+  min-height: calc(100vh - 120px);
+  background-color: #f8f9fa;
+}
+
+.ranking-item {
+  background: white;
+  transition: transform 0.15s;
+}
+.ranking-item:hover {
+  transform: translateX(4px);
+}
+.ranking-item.top-1 { border-left: 4px solid #FFD700; }
+.ranking-item.top-2 { border-left: 4px solid #C0C0C0; }
+.ranking-item.top-3 { border-left: 4px solid #CD7F32; }
+
+.rank-position { min-width: 48px; }
+.rank-num { font-size: 1.4rem; }
+
+.provider-avatar {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+}

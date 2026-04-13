@@ -1,0 +1,7 @@
+<div class="d-flex flex-column gap-2">
+  <app-notification-item
+    *ngFor="let n of notifications"
+    [notification]="n"
+    (markRead)="markRead.emit($event)">
+  </app-notification-item>
+</div>

@@ -1,0 +1,21 @@
+<section class="hero-section d-flex align-items-center justify-content-center text-center text-white">
+  <div class="container">
+    <h1 class="hero-title fw-bold mb-3">
+      Encuentra servicios en tu barrio
+    </h1>
+    <p class="hero-subtitle mb-4">
+      Conectamos ciudadanos con prestadores de servicios cercanos, confiables y calificados.
+    </p>
+    <div class="hero-search d-flex gap-2 justify-content-center flex-wrap">
+      <input
+        type="text"
+        class="form-control hero-input"
+        placeholder="¿Qué servicio buscas? Ej. electricista, plomero..."
+        [(ngModel)]="keyword"
+        (keyup.enter)="onSearch()">
+      <button class="btn btn-warning fw-semibold px-4" (click)="onSearch()">
+        <i class="bi bi-search me-1"></i> Buscar
+      </button>
+    </div>
+  </div>
+</section>

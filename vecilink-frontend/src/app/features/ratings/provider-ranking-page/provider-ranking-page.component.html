@@ -1,0 +1,63 @@
+<div class="page-container">
+  <div class="container py-4">
+    <div class="text-center mb-5">
+      <h1 class="h2 fw-bold"><i class="bi bi-trophy-fill text-warning me-2"></i>Ranking de prestadores</h1>
+      <p class="text-muted">Los mejores prestadores de VeciLink según la calificación de los ciudadanos.</p>
+    </div>
+
+    <app-loader *ngIf="isLoading"></app-loader>
+
+    <ng-container *ngIf="!isLoading">
+      <app-empty-state
+        *ngIf="providers.length === 0"
+        icon="bi-person-x"
+        title="Sin prestadores disponibles"
+        message="Aún no hay prestadores registrados en el ranking.">
+      </app-empty-state>
+
+      <div class="ranking-list" *ngIf="providers.length > 0">
+        <div
+          *ngFor="let provider of providers; let i = index"
+          class="ranking-item d-flex align-items-center gap-3 p-3 mb-3 rounded shadow-sm"
+          [class.top-1]="i === 0"
+          [class.top-2]="i === 1"
+          [class.top-3]="i === 2">
+
+          <!-- Posición -->
+          <div class="rank-position text-center">
+            <span *ngIf="i === 0" class="fs-2">🥇</span>
+            <span *ngIf="i === 1" class="fs-2">🥈</span>
+            <span *ngIf="i === 2" class="fs-2">🥉</span>
+            <span *ngIf="i > 2" class="rank-num fw-bold text-muted">{{ i + 1 }}</span>
+          </div>
+
+          <!-- Avatar -->
+          <div class="provider-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
+            <img *ngIf="provider.photoUrl" [src]="provider.photoUrl" [alt]="provider.providerName" class="rounded-circle w-100 h-100 object-fit-cover">
+            <i *ngIf="!provider.photoUrl" class="bi bi-person fs-4"></i>
+          </div>
+
+          <!-- Info -->
+          <div class="flex-grow-1">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <h5 class="mb-0 fw-bold">{{ provider.providerName }}</h5>
+              <app-featured-badge *ngIf="provider.isFeatured"></app-featured-badge>
+            </div>
+            <p class="text-muted small mb-1">
+              <i class="bi bi-geo-alt me-1"></i>{{ provider.neighborhood }}
+              <span *ngIf="provider.zone"> — {{ provider.zone }}</span>
+            </p>
+            <app-rating-stars [stars]="provider.ratingAverage ?? 0" [interactive]="false"></app-rating-stars>
+          </div>
+
+          <!-- Rating badge -->
+          <div class="rating-badge text-center flex-shrink-0">
+            <span class="badge bg-warning text-dark fs-5 px-3 py-2">
+              {{ provider.ratingAverage | number:'1.1-1' }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

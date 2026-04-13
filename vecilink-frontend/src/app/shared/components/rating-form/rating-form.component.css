@@ -1,0 +1,10 @@
+.btn-star {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.btn-star:hover {
+  transform: scale(1.2);
+}

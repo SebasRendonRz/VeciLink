@@ -1,0 +1,37 @@
+<div class="card border-0 shadow-sm p-4">
+  <h5 class="fw-bold mb-4">Información personal</h5>
+
+  <app-alert *ngIf="successMessage" [message]="successMessage" type="success" (dismissed)="successMessage = ''"></app-alert>
+  <app-alert *ngIf="errorMessage" [message]="errorMessage" type="danger" (dismissed)="errorMessage = ''"></app-alert>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+    <div class="row g-3">
+
+      <div class="col-12">
+        <label class="form-label">Nombre completo</label>
+        <input type="text" class="form-control"
+          [class.is-invalid]="f['fullName'].invalid && f['fullName'].touched"
+          formControlName="fullName">
+        <div class="invalid-feedback">El nombre es requerido.</div>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Teléfono <span class="text-muted">(opcional)</span></label>
+        <input type="tel" class="form-control" formControlName="phone" placeholder="Ej. 3001234567">
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label">Barrio <span class="text-muted">(opcional)</span></label>
+        <input type="text" class="form-control" formControlName="neighborhood" placeholder="Ej. El Poblado">
+      </div>
+
+      <div class="col-12">
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving">
+          <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+          {{ isSaving ? 'Guardando...' : 'Guardar cambios' }}
+        </button>
+      </div>
+
+    </div>
+  </form>
+</div>

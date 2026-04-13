@@ -1,0 +1,41 @@
+<div class="page-container">
+  <div class="container py-4" style="max-width: 720px;">
+    <h1 class="h3 fw-bold mb-4"><i class="bi bi-person-circle me-2 text-primary"></i>Mi perfil</h1>
+
+    <app-loader *ngIf="isLoading"></app-loader>
+
+    <ng-container *ngIf="!isLoading && user">
+      <!-- Cabecera de perfil -->
+      <div class="card border-0 shadow-sm p-4 mb-4">
+        <div class="d-flex align-items-center gap-4">
+          <div class="profile-avatar bg-primary text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0">
+            <i class="bi bi-person-fill fs-2"></i>
+          </div>
+          <div>
+            <h4 class="fw-bold mb-0">{{ user.fullName }}</h4>
+            <p class="text-muted mb-0">{{ user.email }}</p>
+            <span class="badge mt-1"
+              [class.bg-primary]="user.role === 'citizen'"
+              [class.bg-success]="user.role === 'provider'"
+              [class.bg-danger]="user.role === 'admin'">
+              {{ user.role === 'citizen' ? 'Ciudadano' : user.role === 'provider' ? 'Prestador' : 'Administrador' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formulario -->
+      <app-profile-form
+        [user]="user"
+        (profileUpdated)="onProfileUpdated($event)">
+      </app-profile-form>
+
+      <!-- Link panel prestador -->
+      <div class="mt-3" *ngIf="user.role === 'provider'">
+        <a routerLink="/provider" class="btn btn-outline-success btn-sm">
+          <i class="bi bi-briefcase me-1"></i>Ir al panel del prestador
+        </a>
+      </div>
+    </ng-container>
+  </div>
+</div>

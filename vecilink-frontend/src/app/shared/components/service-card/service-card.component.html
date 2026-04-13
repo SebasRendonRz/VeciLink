@@ -1,0 +1,27 @@
+<div class="card service-card clickable-card h-100" [routerLink]="['/services', service.id]">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <span class="badge bg-light text-secondary border">{{ service.categoryName }}</span>
+      <app-featured-badge *ngIf="service.isFeatured"></app-featured-badge>
+    </div>
+    <h5 class="card-title">{{ service.serviceName }}</h5>
+    <p class="card-text text-muted small">{{ service.description | slice:0:90 }}{{ service.description.length > 90 ? '...' : '' }}</p>
+    <div class="d-flex align-items-center gap-2 mt-auto">
+      <i class="bi bi-geo-alt text-primary"></i>
+      <span class="small text-muted">{{ service.neighborhood }}</span>
+    </div>
+  </div>
+  <div class="card-footer d-flex justify-content-between align-items-center bg-white border-top-0">
+    <app-rating-stars [stars]="service.averageRating ?? 0" [total]="service.totalRatings"></app-rating-stars>
+    <div class="d-flex align-items-center gap-2">
+      <span *ngIf="service.price" class="fw-semibold text-primary small">${{ service.price | number }}</span>
+      <button
+        class="btn btn-sm btn-link p-0 text-secondary"
+        (click)="$event.stopPropagation(); favoriteToggled.emit(service)"
+        [title]="isFavorite ? 'Quitar favorito' : 'Guardar favorito'"
+      >
+        <i class="bi" [class.bi-heart-fill]="isFavorite" [class.bi-heart]="!isFavorite" [class.text-danger]="isFavorite"></i>
+      </button>
+    </div>
+  </div>
+</div>

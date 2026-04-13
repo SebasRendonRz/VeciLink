@@ -1,0 +1,49 @@
+<div class="register-bg d-flex align-items-center justify-content-center min-vh-100 py-4">
+  <div class="register-container">
+    <div class="text-center mb-4">
+      <img src="LogoVeciLink.png" alt="VeciLink" height="48" class="mb-2">
+      <h1 class="h4 fw-bold mb-0">Crear cuenta</h1>
+      <p class="text-muted small">¿Cómo deseas registrarte?</p>
+    </div>
+
+    <!-- Selector de tipo -->
+    <div *ngIf="!selectedType" class="type-selector d-flex gap-3">
+      <button class="type-card card flex-fill p-4 text-center border-0 shadow-sm" (click)="selectType('citizen')">
+        <i class="bi bi-person-circle display-4 text-primary mb-2"></i>
+        <h5 class="fw-bold mb-1">Ciudadano</h5>
+        <p class="text-muted small mb-0">Busco servicios en mi barrio</p>
+      </button>
+      <button class="type-card card flex-fill p-4 text-center border-0 shadow-sm" (click)="selectType('provider')">
+        <i class="bi bi-briefcase display-4 text-success mb-2"></i>
+        <h5 class="fw-bold mb-1">Prestador</h5>
+        <p class="text-muted small mb-0">Ofrezco mis servicios</p>
+      </button>
+    </div>
+
+    <!-- Formulario ciudadano -->
+    <ng-container *ngIf="selectedType === 'citizen'">
+      <div class="mb-3">
+        <button class="btn btn-link p-0 text-muted" (click)="selectedType = null">
+          <i class="bi bi-arrow-left me-1"></i> Cambiar tipo
+        </button>
+      </div>
+      <app-register-citizen-form></app-register-citizen-form>
+    </ng-container>
+
+    <!-- Formulario prestador -->
+    <ng-container *ngIf="selectedType === 'provider'">
+      <div class="mb-3">
+        <button class="btn btn-link p-0 text-muted" (click)="selectedType = null">
+          <i class="bi bi-arrow-left me-1"></i> Cambiar tipo
+        </button>
+      </div>
+      <app-register-provider-form></app-register-provider-form>
+    </ng-container>
+
+    <hr class="my-3">
+    <p class="text-center small mb-0">
+      ¿Ya tienes cuenta?
+      <a routerLink="/login" class="link-primary fw-semibold">Inicia sesión aquí</a>
+    </p>
+  </div>
+</div>

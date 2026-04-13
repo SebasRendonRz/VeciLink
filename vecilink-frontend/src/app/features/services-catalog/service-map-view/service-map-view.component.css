@@ -1,0 +1,23 @@
+.map-placeholder {
+  height: clamp(260px, 45vh, 360px);
+  background: #e9ecef;
+  border-radius: 12px;
+  border: 2px dashed #ced4da;
+}
+
+.map-service-card {
+  border-radius: 10px;
+  transition: box-shadow 0.15s, border-color 0.15s;
+  border: 2px solid transparent !important;
+}
+
+.map-service-card.selected {
+  border-color: var(--color-primary) !important;
+  background: #f0f5ff;
+}
+
+@media (max-width: 575.98px) {
+  .map-placeholder {
+    height: 260px;
+  }
+}

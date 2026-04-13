@@ -1,0 +1,8 @@
+.page-container {
+  min-height: calc(100vh - 120px);
+  background-color: #f8f9fa;
+}
+.profile-avatar {
+  width: 72px;
+  height: 72px;
+}

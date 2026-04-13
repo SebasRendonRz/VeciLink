@@ -1,0 +1,23 @@
+.hero-section {
+  min-height: 420px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4a9e 100%);
+  padding: 4rem 1rem;
+}
+
+.hero-title {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  opacity: 0.9;
+}
+
+.hero-input {
+  max-width: 480px;
+  font-size: 1rem;
+  padding: 0.65rem 1rem;
+  border-radius: 8px;
+  border: none;
+}

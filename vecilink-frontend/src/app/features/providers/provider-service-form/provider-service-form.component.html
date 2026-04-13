@@ -1,0 +1,123 @@
+<div class="page-container">
+  <div class="container py-4" style="max-width: 720px;">
+    <div class="d-flex align-items-center gap-2 mb-4">
+      <a routerLink="/provider/services" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left"></i>
+      </a>
+      <h1 class="h3 fw-bold mb-0">{{ isEditMode ? 'Editar servicio' : 'Crear servicio' }}</h1>
+    </div>
+
+    <app-loader *ngIf="isLoading"></app-loader>
+
+    <ng-container *ngIf="!isLoading">
+      <app-alert *ngIf="successMessage" [message]="successMessage" type="success" (dismissed)="successMessage = ''"></app-alert>
+      <app-alert *ngIf="errorMessage" [message]="errorMessage" type="danger" (dismissed)="errorMessage = ''"></app-alert>
+
+      <div class="card border-0 shadow-sm p-4">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+          <div class="row g-3">
+
+            <div class="col-12">
+              <label class="form-label">Nombre del servicio</label>
+              <input type="text" class="form-control"
+                [class.is-invalid]="f['serviceName'].invalid && f['serviceName'].touched"
+                formControlName="serviceName" placeholder="Ej. Plomería en general">
+              <div class="invalid-feedback">El nombre del servicio es requerido.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Categoría</label>
+              <select class="form-select"
+                [class.is-invalid]="f['categoryId'].invalid && f['categoryId'].touched"
+                formControlName="categoryId">
+                <option value="">Seleccionar categoría...</option>
+                <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+              </select>
+              <div class="invalid-feedback">La categoría es requerida.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Precio aproximado <span class="text-muted">(opcional)</span></label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" formControlName="price" min="0" placeholder="0">
+              </div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Descripción del servicio</label>
+              <textarea class="form-control" rows="3"
+                [class.is-invalid]="f['description'].invalid && f['description'].touched"
+                formControlName="description"
+                placeholder="Describe qué incluye el servicio, materiales, experiencia..."></textarea>
+              <div class="invalid-feedback">La descripción es requerida.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Barrio donde ofreces el servicio</label>
+              <input type="text" class="form-control"
+                [class.is-invalid]="f['neighborhood'].invalid && f['neighborhood'].touched"
+                formControlName="neighborhood">
+              <div class="invalid-feedback">El barrio es requerido.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Zona <span class="text-muted">(opcional)</span></label>
+              <input type="text" class="form-control" formControlName="zone" placeholder="Ej. Norte, Sur, Centro">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">WhatsApp de contacto</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-whatsapp text-success"></i></span>
+                <input type="tel" class="form-control"
+                  [class.is-invalid]="f['whatsapp'].invalid && f['whatsapp'].touched"
+                  formControlName="whatsapp">
+              </div>
+              <div class="text-danger small mt-1" *ngIf="f['whatsapp'].invalid && f['whatsapp'].touched">
+                El WhatsApp es requerido.
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Horario</label>
+              <input type="text" class="form-control"
+                [class.is-invalid]="f['schedule'].invalid && f['schedule'].touched"
+                formControlName="schedule" placeholder="Ej. Lun-Vie 8am-6pm">
+              <div class="invalid-feedback">El horario es requerido.</div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Disponibilidad</label>
+              <select class="form-select"
+                [class.is-invalid]="f['availability'].invalid && f['availability'].touched"
+                formControlName="availability">
+                <option value="">Seleccionar...</option>
+                <option value="Inmediata">Inmediata</option>
+                <option value="Con cita previa">Con cita previa</option>
+                <option value="Misma semana">Misma semana</option>
+                <option value="Próxima semana">Próxima semana</option>
+                <option value="Urgencias 24h">Urgencias 24h</option>
+              </select>
+              <div class="invalid-feedback">La disponibilidad es requerida.</div>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">URL de foto del servicio <span class="text-muted">(opcional)</span></label>
+              <input type="url" class="form-control" formControlName="photoUrl" placeholder="https://...">
+            </div>
+
+            <div class="col-12 mt-2 d-flex flex-column flex-sm-row gap-2">
+              <button type="submit" class="btn btn-primary flex-fill flex-sm-grow-0" [disabled]="isSaving">
+                <span *ngIf="isSaving" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isSaving ? 'Guardando...' : (isEditMode ? 'Guardar cambios' : 'Crear servicio') }}
+              </button>
+              <a routerLink="/provider/services" class="btn btn-outline-secondary flex-fill flex-sm-grow-0">Cancelar</a>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </ng-container>
+  </div>
+</div>

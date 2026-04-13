@@ -1,0 +1,7 @@
+<div class="ads-banner-wrapper" *ngIf="currentAd">
+  <div class="container py-3">
+    <a [href]="currentAd.redirectUrl || '#'" target="_blank" rel="noopener" class="d-block">
+      <img [src]="currentAd.imageUrl" [alt]="currentAd.title" class="ads-banner-img img-fluid w-100">
+    </a>
+  </div>
+</div>
