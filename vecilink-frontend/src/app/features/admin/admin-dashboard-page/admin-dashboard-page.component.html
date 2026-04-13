@@ -1,83 +1,88 @@
 <app-admin-topbar title="Dashboard"></app-admin-topbar>
 
 <div class="p-4">
-  <app-loader *ngIf="isLoading"></app-loader>
+  @if (isLoading) {
+  <app-loader></app-loader>
+  }
 
-  <ng-container *ngIf="!isLoading">
-    <div class="row g-4 mb-4">
+  @if (!isLoading) {
+  <div class="row g-4 mb-4">
 
-      <div class="col-sm-6 col-xl-3">
-        <div class="stat-card card border-0 shadow-sm p-4 h-100">
-          <div class="d-flex align-items-center gap-3">
-            <div class="stat-icon bg-primary-subtle rounded-circle">
-              <i class="bi bi-people-fill text-primary fs-4"></i>
-            </div>
-            <div>
-              <p class="text-muted small mb-0">Total usuarios</p>
-              <h3 class="fw-bold mb-0">{{ totalUsers }}</h3>
-            </div>
+    <div class="col-sm-6 col-xl-3">
+      <div class="stat-card card border-0 shadow-sm p-4 h-100">
+        <div class="d-flex align-items-center gap-3">
+          <div class="stat-icon bg-primary-subtle rounded-circle">
+            <i class="bi bi-people-fill text-primary fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-0">Total usuarios</p>
+            <h3 class="fw-bold mb-0">{{ totalUsers }}</h3>
           </div>
         </div>
       </div>
-
-      <div class="col-sm-6 col-xl-3">
-        <div class="stat-card card border-0 shadow-sm p-4 h-100">
-          <div class="d-flex align-items-center gap-3">
-            <div class="stat-icon bg-success-subtle rounded-circle">
-              <i class="bi bi-briefcase-fill text-success fs-4"></i>
-            </div>
-            <div>
-              <p class="text-muted small mb-0">Servicios activos</p>
-              <h3 class="fw-bold mb-0">{{ totalServices }}</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6 col-xl-3">
-        <div class="stat-card card border-0 shadow-sm p-4 h-100">
-          <div class="d-flex align-items-center gap-3">
-            <div class="stat-icon bg-danger-subtle rounded-circle">
-              <i class="bi bi-flag-fill text-danger fs-4"></i>
-            </div>
-            <div>
-              <p class="text-muted small mb-0">Reportes pendientes</p>
-              <h3 class="fw-bold mb-0">{{ pendingReports }}</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm-6 col-xl-3">
-        <div class="stat-card card border-0 shadow-sm p-4 h-100">
-          <div class="d-flex align-items-center gap-3">
-            <div class="stat-icon bg-warning-subtle rounded-circle">
-              <i class="bi bi-patch-check-fill text-warning fs-4"></i>
-            </div>
-            <div>
-              <p class="text-muted small mb-0">Prestadores destacados</p>
-              <h3 class="fw-bold mb-0">{{ featuredProviders }}</h3>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- Quick links -->
-    <div class="row g-3">
-      <div class="col-sm-6 col-lg-3" *ngFor="let link of [
-        { label:'Usuarios', icon:'bi-people', route:'/admin/users', color:'primary' },
-        { label:'Servicios', icon:'bi-briefcase', route:'/admin/services', color:'success' },
-        { label:'Reportes', icon:'bi-flag', route:'/admin/reports', color:'danger' },
-        { label:'Publicidad', icon:'bi-megaphone', route:'/admin/ads', color:'warning' }
-      ]">
-        <a [routerLink]="link.route" class="card border-0 shadow-sm p-3 d-flex flex-row align-items-center gap-3 text-decoration-none quick-link">
-          <i class="bi {{ link.icon }} fs-3 text-{{ link.color }}"></i>
-          <span class="fw-semibold text-dark">{{ link.label }}</span>
-          <i class="bi bi-chevron-right text-muted ms-auto"></i>
-        </a>
+    <div class="col-sm-6 col-xl-3">
+      <div class="stat-card card border-0 shadow-sm p-4 h-100">
+        <div class="d-flex align-items-center gap-3">
+          <div class="stat-icon bg-success-subtle rounded-circle">
+            <i class="bi bi-briefcase-fill text-success fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-0">Servicios activos</p>
+            <h3 class="fw-bold mb-0">{{ totalServices }}</h3>
+          </div>
+        </div>
       </div>
     </div>
-  </ng-container>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="stat-card card border-0 shadow-sm p-4 h-100">
+        <div class="d-flex align-items-center gap-3">
+          <div class="stat-icon bg-danger-subtle rounded-circle">
+            <i class="bi bi-flag-fill text-danger fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-0">Reportes pendientes</p>
+            <h3 class="fw-bold mb-0">{{ pendingReports }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6 col-xl-3">
+      <div class="stat-card card border-0 shadow-sm p-4 h-100">
+        <div class="d-flex align-items-center gap-3">
+          <div class="stat-icon bg-warning-subtle rounded-circle">
+            <i class="bi bi-patch-check-fill text-warning fs-4"></i>
+          </div>
+          <div>
+            <p class="text-muted small mb-0">Prestadores destacados</p>
+            <h3 class="fw-bold mb-0">{{ featuredProviders }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quick links -->
+  <div class="row g-3">
+    @for (link of [
+    { label:'Usuarios', icon:'bi-people', route:'/admin/users', color:'primary' },
+    { label:'Servicios', icon:'bi-briefcase', route:'/admin/services', color:'success' },
+    { label:'Reportes', icon:'bi-flag', route:'/admin/reports', color:'danger' },
+    { label:'Publicidad', icon:'bi-megaphone', route:'/admin/ads', color:'warning' }
+    ]; track link.route) {
+    <div class="col-sm-6 col-lg-3">
+      <a [routerLink]="link.route"
+        class="card border-0 shadow-sm p-3 d-flex flex-row align-items-center gap-3 text-decoration-none quick-link">
+        <i class="bi {{ link.icon }} fs-3 text-{{ link.color }}"></i>
+        <span class="fw-semibold text-dark">{{ link.label }}</span>
+        <i class="bi bi-chevron-right text-muted ms-auto"></i>
+      </a>
+    </div>
+    }
+  </div>
+  }
 </div>

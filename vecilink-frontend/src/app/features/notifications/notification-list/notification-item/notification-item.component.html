@@ -1,14 +1,10 @@
-<div class="notification-item d-flex gap-3 p-3 rounded"
-  [class.unread]="!notification.isRead"
+<div class="notification-item d-flex gap-3 p-3 rounded" [class.unread]="!notification.isRead"
   [class.read]="notification.isRead">
 
   <div class="notif-icon d-flex align-items-center justify-content-center rounded-circle flex-shrink-0"
-    [class.bg-info]="notification.type === 'info'"
-    [class.bg-success]="notification.type === 'success'"
-    [class.bg-warning]="notification.type === 'warning'"
-    [class.bg-danger]="notification.type === 'error'">
-    <i class="bi text-white"
-      [class.bi-info-circle]="notification.type === 'info'"
+    [class.bg-info]="notification.type === 'info'" [class.bg-success]="notification.type === 'success'"
+    [class.bg-warning]="notification.type === 'warning'" [class.bg-danger]="notification.type === 'error'">
+    <i class="bi text-white" [class.bi-info-circle]="notification.type === 'info'"
       [class.bi-check-circle]="notification.type === 'success'"
       [class.bi-exclamation-triangle]="notification.type === 'warning'"
       [class.bi-x-circle]="notification.type === 'error'">
@@ -25,10 +21,10 @@
     <p class="small text-muted mb-0">{{ notification.message }}</p>
   </div>
 
-  <button *ngIf="!notification.isRead"
-    class="btn btn-link btn-sm text-muted p-0 flex-shrink-0 align-self-center"
-    title="Marcar como leído"
-    (click)="markRead.emit(notification.id)">
+  @if (!notification.isRead) {
+  <button class="btn btn-link btn-sm text-muted p-0 flex-shrink-0 align-self-center"
+    title="Marcar como leído" (click)="markRead.emit(notification.id)">
     <i class="bi bi-check2"></i>
   </button>
+  }
 </div>

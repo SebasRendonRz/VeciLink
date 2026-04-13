@@ -3,28 +3,32 @@
     <div class="d-flex align-items-center justify-content-between mb-4">
       <h1 class="h3 fw-bold mb-0">
         <i class="bi bi-bell me-2 text-primary"></i>Notificaciones
-        <span *ngIf="unreadCount > 0" class="badge bg-danger ms-2 fs-6">{{ unreadCount }}</span>
+        @if (unreadCount > 0) {
+        <span class="badge bg-danger ms-2 fs-6">{{ unreadCount }}</span>
+        }
       </h1>
-      <button *ngIf="unreadCount > 0" class="btn btn-outline-secondary btn-sm" (click)="markAllAsRead()">
+      @if (unreadCount > 0) {
+      <button class="btn btn-outline-secondary btn-sm" (click)="markAllAsRead()">
         <i class="bi bi-check2-all me-1"></i>Marcar todas como leídas
       </button>
+      }
     </div>
 
-    <app-loader *ngIf="isLoading"></app-loader>
+    @if (isLoading) {
+    <app-loader></app-loader>
+    }
 
-    <ng-container *ngIf="!isLoading">
-      <app-empty-state
-        *ngIf="notifications.length === 0"
-        icon="bi-bell-slash"
-        title="Sin notificaciones"
-        message="No tienes notificaciones en este momento.">
-      </app-empty-state>
+    @if (!isLoading) {
+    @if (notifications.length === 0) {
+    <app-empty-state icon="bi-bell-slash" title="Sin notificaciones"
+      message="No tienes notificaciones en este momento.">
+    </app-empty-state>
+    }
 
-      <app-notification-list
-        *ngIf="notifications.length > 0"
-        [notifications]="notifications"
-        (markRead)="onMarkRead($event)">
-      </app-notification-list>
-    </ng-container>
+    @if (notifications.length > 0) {
+    <app-notification-list [notifications]="notifications" (markRead)="onMarkRead($event)">
+    </app-notification-list>
+    }
+    }
   </div>
 </div>

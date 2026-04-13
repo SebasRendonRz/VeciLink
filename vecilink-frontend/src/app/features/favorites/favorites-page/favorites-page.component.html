@@ -2,21 +2,20 @@
   <div class="container py-4">
     <h1 class="h3 fw-bold mb-4"><i class="bi bi-heart-fill text-danger me-2"></i>Mis favoritos</h1>
 
-    <app-loader *ngIf="isLoading"></app-loader>
+    @if (isLoading) {
+    <app-loader></app-loader>
+    }
 
-    <ng-container *ngIf="!isLoading">
-      <app-empty-state
-        *ngIf="favoriteServices.length === 0"
-        icon="bi-heart"
-        title="Sin favoritos aún"
-        message="Guarda servicios como favoritos para encontrarlos fácilmente aquí.">
-      </app-empty-state>
+    @if (!isLoading) {
+    @if (favoriteServices.length === 0) {
+    <app-empty-state icon="bi-heart" title="Sin favoritos aún"
+      message="Guarda servicios como favoritos para encontrarlos fácilmente aquí.">
+    </app-empty-state>
+    }
 
-      <app-favorite-service-list
-        *ngIf="favoriteServices.length > 0"
-        [services]="favoriteServices"
-        (favoriteToggled)="onFavoriteToggled($event)">
-      </app-favorite-service-list>
-    </ng-container>
+    @if (favoriteServices.length > 0) {
+    <app-favorite-service-list [services]="favoriteServices" (favoriteToggled)="onFavoriteToggled($event)">
+    </app-favorite-service-list>
+    }
+    }
   </div>
-</div>

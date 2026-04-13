@@ -1,9 +1,8 @@
 <div class="row g-3">
-  <div class="col-12 col-sm-6 col-lg-4" *ngFor="let service of services">
-    <app-service-card
-      [service]="service"
-      [isFavorite]="true"
-      (favoriteToggled)="favoriteToggled.emit($event)">
+  @for (service of services; track service.id) {
+  <div class="col-12 col-sm-6 col-lg-4">
+    <app-service-card [service]="service" [isFavorite]="true" (favoriteToggled)="favoriteToggled.emit($event)">
     </app-service-card>
   </div>
+  }
 </div>

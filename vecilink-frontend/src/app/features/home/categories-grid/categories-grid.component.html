@@ -2,13 +2,15 @@
   <div class="container">
     <h2 class="section-title text-center mb-4">Categorías de servicios</h2>
     <div class="row g-3 justify-content-center">
-      <div class="col-6 col-sm-4 col-md-3 col-lg-2" *ngFor="let cat of categories">
+      @for (cat of categories; track cat.id) {
+      <div class="col-6 col-sm-4 col-md-3 col-lg-2">
         <button class="category-card card border-0 shadow-sm w-100 p-3 text-center clickable-card"
           (click)="goToCategory(cat.id)">
           <i class="bi {{ cat.icon }} display-5 text-primary mb-2"></i>
           <p class="mb-0 fw-semibold small">{{ cat.name }}</p>
         </button>
       </div>
+      }
     </div>
   </div>
 </section>

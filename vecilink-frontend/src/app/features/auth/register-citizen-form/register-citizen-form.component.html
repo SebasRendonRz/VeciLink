@@ -3,50 +3,48 @@
     <i class="bi bi-person-circle text-primary me-2"></i>Registro de Ciudadano
   </h5>
 
-  <app-alert
-    *ngIf="errorMessage"
-    [message]="errorMessage"
-    type="danger"
-    (dismissed)="errorMessage = ''">
+  @if (errorMessage) {
+  <app-alert [message]="errorMessage" type="danger" (dismissed)="errorMessage = ''">
   </app-alert>
+  }
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="row g-3">
       <!-- Nombre completo -->
       <div class="col-12">
         <label class="form-label">Nombre completo</label>
-        <input type="text" class="form-control"
-          [class.is-invalid]="f['fullName'].invalid && f['fullName'].touched"
-          formControlName="fullName"
-          placeholder="Ej. Ana María Pérez">
+        <input type="text" class="form-control" [class.is-invalid]="f['fullName'].invalid && f['fullName'].touched"
+          formControlName="fullName" placeholder="Ej. Ana María Pérez">
         <div class="invalid-feedback">El nombre es requerido.</div>
       </div>
 
       <!-- Correo -->
       <div class="col-12">
         <label class="form-label">Correo electrónico</label>
-        <input type="email" class="form-control"
-          [class.is-invalid]="f['email'].invalid && f['email'].touched"
-          formControlName="email"
-          placeholder="correo@ejemplo.com"
-          autocomplete="email">
+        <input type="email" class="form-control" [class.is-invalid]="f['email'].invalid && f['email'].touched"
+          formControlName="email" placeholder="correo@ejemplo.com" autocomplete="email">
         <div class="invalid-feedback">
-          <span *ngIf="f['email'].errors?.['required']">El correo es requerido.</span>
-          <span *ngIf="f['email'].errors?.['email']">Ingresa un correo válido.</span>
+          @if (f['email'].errors?.['required']) {
+          <span>El correo es requerido.</span>
+          }
+          @if (f['email'].errors?.['email']) {
+          <span>Ingresa un correo válido.</span>
+          }
         </div>
       </div>
 
       <!-- Contraseña -->
       <div class="col-md-6">
         <label class="form-label">Contraseña</label>
-        <input type="password" class="form-control"
-          [class.is-invalid]="f['password'].invalid && f['password'].touched"
-          formControlName="password"
-          placeholder="Mínimo 6 caracteres"
-          autocomplete="new-password">
+        <input type="password" class="form-control" [class.is-invalid]="f['password'].invalid && f['password'].touched"
+          formControlName="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
         <div class="invalid-feedback">
-          <span *ngIf="f['password'].errors?.['required']">La contraseña es requerida.</span>
-          <span *ngIf="f['password'].errors?.['minlength']">Mínimo 6 caracteres.</span>
+          @if (f['password'].errors?.['required']) {
+          <span>La contraseña es requerida.</span>
+          }
+          @if (f['password'].errors?.['minlength']) {
+          <span>Mínimo 6 caracteres.</span>
+          }
         </div>
       </div>
 
@@ -55,12 +53,14 @@
         <label class="form-label">Confirmar contraseña</label>
         <input type="password" class="form-control"
           [class.is-invalid]="(f['confirmPassword'].invalid && f['confirmPassword'].touched) || (form.errors?.['passwordsMismatch'] && f['confirmPassword'].touched)"
-          formControlName="confirmPassword"
-          placeholder="Repite tu contraseña"
-          autocomplete="new-password">
+          formControlName="confirmPassword" placeholder="Repite tu contraseña" autocomplete="new-password">
         <div class="invalid-feedback">
-          <span *ngIf="f['confirmPassword'].errors?.['required']">Confirma tu contraseña.</span>
-          <span *ngIf="form.errors?.['passwordsMismatch'] && !f['confirmPassword'].errors?.['required']">Las contraseñas no coinciden.</span>
+          @if (f['confirmPassword'].errors?.['required']) {
+          <span>Confirma tu contraseña.</span>
+          }
+          @if (form.errors?.['passwordsMismatch'] && !f['confirmPassword'].errors?.['required']) {
+          <span>Las contraseñas no coinciden.</span>
+          }
         </div>
       </div>
 
@@ -68,8 +68,7 @@
       <div class="col-md-6">
         <label class="form-label">Barrio</label>
         <input type="text" class="form-control"
-          [class.is-invalid]="f['neighborhood'].invalid && f['neighborhood'].touched"
-          formControlName="neighborhood"
+          [class.is-invalid]="f['neighborhood'].invalid && f['neighborhood'].touched" formControlName="neighborhood"
           placeholder="Ej. La Candelaria">
         <div class="invalid-feedback">El barrio es requerido.</div>
       </div>
@@ -77,16 +76,16 @@
       <!-- Teléfono -->
       <div class="col-md-6">
         <label class="form-label">Teléfono</label>
-        <input type="tel" class="form-control"
-          [class.is-invalid]="f['phone'].invalid && f['phone'].touched"
-          formControlName="phone"
-          placeholder="Ej. 3001234567">
+        <input type="tel" class="form-control" [class.is-invalid]="f['phone'].invalid && f['phone'].touched"
+          formControlName="phone" placeholder="Ej. 3001234567">
         <div class="invalid-feedback">El teléfono es requerido.</div>
       </div>
 
       <div class="col-12 mt-2">
         <button type="submit" class="btn btn-primary w-100" [disabled]="isLoading">
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+          @if (isLoading) {
+          <span class="spinner-border spinner-border-sm me-2"></span>
+          }
           {{ isLoading ? 'Registrando...' : 'Crear cuenta' }}
         </button>
       </div>

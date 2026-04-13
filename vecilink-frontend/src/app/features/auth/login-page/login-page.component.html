@@ -6,52 +6,44 @@
       <p class="text-muted small">Bienvenido de nuevo</p>
     </div>
 
-    <app-alert
-      *ngIf="errorMessage"
-      [message]="errorMessage"
-      type="danger"
-      (dismissed)="errorMessage = ''">
+    @if (errorMessage) {
+    <app-alert [message]="errorMessage" type="danger" (dismissed)="errorMessage = ''">
     </app-alert>
+    }
 
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
       <!-- Correo -->
       <div class="mb-3">
         <label for="email" class="form-label">Correo electrónico</label>
-        <input
-          id="email"
-          type="email"
-          class="form-control"
-          [class.is-invalid]="email.invalid && email.touched"
-          formControlName="email"
-          placeholder="correo@ejemplo.com"
-          autocomplete="email">
+        <input id="email" type="email" class="form-control" [class.is-invalid]="email.invalid && email.touched"
+          formControlName="email" placeholder="correo@ejemplo.com" autocomplete="email">
         <div class="invalid-feedback">
-          <span *ngIf="email.errors?.['required']">El correo es requerido.</span>
-          <span *ngIf="email.errors?.['email']">Ingresa un correo válido.</span>
+          @if (email.errors?.['required']) {
+          <span>El correo es requerido.</span>
+          }
+          @if (email.errors?.['email']) {
+          <span>Ingresa un correo válido.</span>
+          }
         </div>
       </div>
 
       <!-- Contraseña -->
       <div class="mb-4">
         <label for="password" class="form-label">Contraseña</label>
-        <input
-          id="password"
-          type="password"
-          class="form-control"
-          [class.is-invalid]="password.invalid && password.touched"
-          formControlName="password"
-          placeholder="Tu contraseña"
-          autocomplete="current-password">
+        <input id="password" type="password" class="form-control"
+          [class.is-invalid]="password.invalid && password.touched" formControlName="password"
+          placeholder="Tu contraseña" autocomplete="current-password">
         <div class="invalid-feedback">
-          <span *ngIf="password.errors?.['required']">La contraseña es requerida.</span>
+          @if (password.errors?.['required']) {
+          <span>La contraseña es requerida.</span>
+          }
         </div>
       </div>
 
-      <button
-        type="submit"
-        class="btn btn-primary w-100"
-        [disabled]="isLoading">
-        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+      <button type="submit" class="btn btn-primary w-100" [disabled]="isLoading">
+        @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-2"></span>
+        }
         {{ isLoading ? 'Ingresando...' : 'Ingresar' }}
       </button>
     </form>

@@ -5,19 +5,18 @@
       <a routerLink="/services" class="btn btn-outline-primary btn-sm">Ver todos</a>
     </div>
     <div class="row g-3">
-      <div class="col-12 col-sm-6 col-lg-4" *ngFor="let service of featuredServices">
-        <app-service-card
-          [service]="service"
-          [isFavorite]="favoriteIds.has(service.id)"
+      @for (service of featuredServices; track service.id) {
+      <div class="col-12 col-sm-6 col-lg-4">
+        <app-service-card [service]="service" [isFavorite]="favoriteIds.has(service.id)"
           (favoriteToggled)="onFavoriteToggled($event)">
         </app-service-card>
       </div>
+      }
     </div>
-    <app-empty-state
-      *ngIf="featuredServices.length === 0"
-      icon="bi-star"
-      title="Sin servicios destacados"
+    @if (featuredServices.length === 0) {
+    <app-empty-state icon="bi-star" title="Sin servicios destacados"
       message="Próximamente encontrarás servicios destacados aquí.">
     </app-empty-state>
+    }
   </div>
 </section>

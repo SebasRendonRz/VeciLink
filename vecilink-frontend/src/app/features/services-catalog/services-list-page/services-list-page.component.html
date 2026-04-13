@@ -14,43 +14,44 @@
 
     <div class="mt-4">
       <!-- Loader -->
-      <app-loader *ngIf="isLoading"></app-loader>
+      @if (isLoading) {
+      <app-loader></app-loader>
+      }
 
       <!-- Vista mapa -->
-      <ng-container *ngIf="!isLoading && showMap">
-        <app-service-map-view [services]="allServices"></app-service-map-view>
-      </ng-container>
+      @if (!isLoading && showMap) {
+      <app-service-map-view [services]="allServices">
+      </app-service-map-view>
+      }
 
       <!-- Vista lista -->
-      <ng-container *ngIf="!isLoading && !showMap">
-        <!-- Resultados vacíos -->
-        <app-empty-state
-          *ngIf="allServices.length === 0"
-          icon="bi-search"
-          title="Sin resultados"
-          message="No se encontraron servicios con los filtros seleccionados. Intenta con otros términos.">
-        </app-empty-state>
+      @if (!isLoading && !showMap) {
+      <!-- Resultados vacíos -->
+      @if (allServices.length === 0) {
+      <app-empty-state icon="bi-search" title="Sin resultados"
+        message="No se encontraron servicios con los filtros seleccionados. Intenta con otros términos.">
+      </app-empty-state>
+      }
 
-        <!-- Grilla de tarjetas -->
-        <div class="row g-3" *ngIf="allServices.length > 0">
-          <div class="col-12 col-sm-6 col-xl-4" *ngFor="let service of displayedServices">
-            <app-service-card
-              [service]="service"
-              [isFavorite]="favoriteIds.has(service.id)"
-              (favoriteToggled)="onFavoriteToggled($event)">
-            </app-service-card>
-          </div>
-        </div>
-
-        <!-- Paginación -->
-        <div class="mt-4" *ngIf="totalPages > 1">
-          <app-pagination
-            [currentPage]="currentPage"
-            [totalPages]="totalPages"
-            (pageChanged)="onPageChanged($event)">
-          </app-pagination>
-        </div>
-      </ng-container>
+      <!-- Grilla de tarjetas -->
+      @if (allServices.length > 0) {
+      <div class="row g-3">
+        @for (service of displayedServices; track service.id) {
+        <app-service-card [service]="service" [isFavorite]="favoriteIds.has(service.id)"
+          (favoriteToggled)="onFavoriteToggled($event)">
+        </app-service-card>
+        }
+      </div>
+      }
+      }
     </div>
+
+    <!-- Paginación -->
+    @if (totalPages > 1) {
+    <div class="mt-4">
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChanged)="onPageChanged($event)">
+      </app-pagination>
+    </div>
+    }
   </div>
 </div>

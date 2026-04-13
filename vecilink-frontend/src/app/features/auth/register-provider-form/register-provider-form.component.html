@@ -3,12 +3,10 @@
     <i class="bi bi-briefcase text-success me-2"></i>Registro de Prestador
   </h5>
 
-  <app-alert
-    *ngIf="errorMessage"
-    [message]="errorMessage"
-    type="danger"
-    (dismissed)="errorMessage = ''">
+  @if (errorMessage) {
+  <app-alert [message]="errorMessage" type="danger" (dismissed)="errorMessage = ''">
   </app-alert>
+  }
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
     <div class="row g-3">
@@ -21,38 +19,38 @@
       <!-- Nombre completo -->
       <div class="col-12">
         <label class="form-label">Nombre completo</label>
-        <input type="text" class="form-control"
-          [class.is-invalid]="f['fullName'].invalid && f['fullName'].touched"
-          formControlName="fullName"
-          placeholder="Ej. Juan Carlos Martínez">
+        <input type="text" class="form-control" [class.is-invalid]="f['fullName'].invalid && f['fullName'].touched"
+          formControlName="fullName" placeholder="Ej. Juan Carlos Martínez">
         <div class="invalid-feedback">El nombre es requerido.</div>
       </div>
 
       <!-- Correo -->
       <div class="col-12">
         <label class="form-label">Correo electrónico</label>
-        <input type="email" class="form-control"
-          [class.is-invalid]="f['email'].invalid && f['email'].touched"
-          formControlName="email"
-          placeholder="correo@ejemplo.com"
-          autocomplete="email">
+        <input type="email" class="form-control" [class.is-invalid]="f['email'].invalid && f['email'].touched"
+          formControlName="email" placeholder="correo@ejemplo.com" autocomplete="email">
         <div class="invalid-feedback">
-          <span *ngIf="f['email'].errors?.['required']">El correo es requerido.</span>
-          <span *ngIf="f['email'].errors?.['email']">Ingresa un correo válido.</span>
+          @if (f['email'].errors?.['required']) {
+          <span>El correo es requerido.</span>
+          }
+          @if (f['email'].errors?.['email']) {
+          <span>Ingresa un correo válido.</span>
+          }
         </div>
       </div>
 
       <!-- Contraseña -->
       <div class="col-md-6">
         <label class="form-label">Contraseña</label>
-        <input type="password" class="form-control"
-          [class.is-invalid]="f['password'].invalid && f['password'].touched"
-          formControlName="password"
-          placeholder="Mínimo 6 caracteres"
-          autocomplete="new-password">
+        <input type="password" class="form-control" [class.is-invalid]="f['password'].invalid && f['password'].touched"
+          formControlName="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
         <div class="invalid-feedback">
-          <span *ngIf="f['password'].errors?.['required']">La contraseña es requerida.</span>
-          <span *ngIf="f['password'].errors?.['minlength']">Mínimo 6 caracteres.</span>
+          @if (f['password'].errors?.['required']) {
+          <span>La contraseña es requerida.</span>
+          }
+          @if (f['password'].errors?.['minlength']) {
+          <span>Mínimo 6 caracteres.</span>
+          }
         </div>
       </div>
 
@@ -61,12 +59,14 @@
         <label class="form-label">Confirmar contraseña</label>
         <input type="password" class="form-control"
           [class.is-invalid]="(f['confirmPassword'].invalid && f['confirmPassword'].touched) || (form.errors?.['passwordsMismatch'] && f['confirmPassword'].touched)"
-          formControlName="confirmPassword"
-          placeholder="Repite tu contraseña"
-          autocomplete="new-password">
+          formControlName="confirmPassword" placeholder="Repite tu contraseña" autocomplete="new-password">
         <div class="invalid-feedback">
-          <span *ngIf="f['confirmPassword'].errors?.['required']">Confirma tu contraseña.</span>
-          <span *ngIf="form.errors?.['passwordsMismatch'] && !f['confirmPassword'].errors?.['required']">Las contraseñas no coinciden.</span>
+          @if (f['confirmPassword'].errors?.['required']) {
+          <span>Confirma tu contraseña.</span>
+          }
+          @if (form.errors?.['passwordsMismatch'] && !f['confirmPassword'].errors?.['required']) {
+          <span>Las contraseñas no coinciden.</span>
+          }
         </div>
       </div>
 
@@ -74,8 +74,7 @@
       <div class="col-md-6">
         <label class="form-label">Barrio</label>
         <input type="text" class="form-control"
-          [class.is-invalid]="f['neighborhood'].invalid && f['neighborhood'].touched"
-          formControlName="neighborhood"
+          [class.is-invalid]="f['neighborhood'].invalid && f['neighborhood'].touched" formControlName="neighborhood"
           placeholder="Ej. El Poblado">
         <div class="invalid-feedback">El barrio es requerido.</div>
       </div>
@@ -83,10 +82,8 @@
       <!-- Teléfono -->
       <div class="col-md-6">
         <label class="form-label">Teléfono / WhatsApp</label>
-        <input type="tel" class="form-control"
-          [class.is-invalid]="f['phone'].invalid && f['phone'].touched"
-          formControlName="phone"
-          placeholder="Ej. 3001234567">
+        <input type="tel" class="form-control" [class.is-invalid]="f['phone'].invalid && f['phone'].touched"
+          formControlName="phone" placeholder="Ej. 3001234567">
         <div class="invalid-feedback">El teléfono es requerido.</div>
       </div>
 
@@ -99,8 +96,7 @@
       <div class="col-12">
         <label class="form-label">Nombre del negocio / prestador</label>
         <input type="text" class="form-control"
-          [class.is-invalid]="f['providerName'].invalid && f['providerName'].touched"
-          formControlName="providerName"
+          [class.is-invalid]="f['providerName'].invalid && f['providerName'].touched" formControlName="providerName"
           placeholder="Ej. Fontanería López">
         <div class="invalid-feedback">El nombre del negocio es requerido.</div>
       </div>
@@ -108,18 +104,15 @@
       <!-- Horario -->
       <div class="col-md-6">
         <label class="form-label">Horario de atención</label>
-        <input type="text" class="form-control"
-          [class.is-invalid]="f['schedule'].invalid && f['schedule'].touched"
-          formControlName="schedule"
-          placeholder="Ej. Lunes a Viernes 8am–6pm">
+        <input type="text" class="form-control" [class.is-invalid]="f['schedule'].invalid && f['schedule'].touched"
+          formControlName="schedule" placeholder="Ej. Lunes a Viernes 8am–6pm">
         <div class="invalid-feedback">El horario es requerido.</div>
       </div>
 
       <!-- Disponibilidad -->
       <div class="col-md-6">
         <label class="form-label">Disponibilidad</label>
-        <select class="form-select"
-          [class.is-invalid]="f['availability'].invalid && f['availability'].touched"
+        <select class="form-select" [class.is-invalid]="f['availability'].invalid && f['availability'].touched"
           formControlName="availability">
           <option value="">Seleccionar...</option>
           <option value="Inmediata">Inmediata</option>
@@ -139,7 +132,9 @@
 
       <div class="col-12 mt-2">
         <button type="submit" class="btn btn-success w-100" [disabled]="isLoading">
-          <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2"></span>
+          @if (isLoading) {
+          <span class="spinner-border spinner-border-sm me-2"></span>
+          }
           {{ isLoading ? 'Registrando...' : 'Crear cuenta de prestador' }}
         </button>
       </div>
