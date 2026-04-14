@@ -9,6 +9,7 @@ export interface ServiceItem {
   categoryName?: string;
   providerProfileId?: number;
   providerId?: number;
+  providerUserId?: number;
   providerName?: string;
   providerRatingAverage?: number;
   createdAt?: string;

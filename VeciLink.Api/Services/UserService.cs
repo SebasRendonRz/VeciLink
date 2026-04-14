@@ -65,6 +65,19 @@ public class UserService : IUserService
         var user = await _context.Users.FindAsync(id)
             ?? throw new KeyNotFoundException("Usuario no encontrado.");
 
+        // Eliminar relaciones con NoAction antes de borrar el usuario
+        var favorites = _context.Favorites.Where(f => f.UserId == id);
+        _context.Favorites.RemoveRange(favorites);
+
+        var ratings = _context.Ratings.Where(r => r.UserId == id);
+        _context.Ratings.RemoveRange(ratings);
+
+        var reports = _context.Reports.Where(r => r.ReporterUserId == id || r.ReportedUserId == id);
+        _context.Reports.RemoveRange(reports);
+
+        var serviceRequests = _context.ServiceRequests.Where(sr => sr.UserId == id);
+        _context.ServiceRequests.RemoveRange(serviceRequests);
+
         _context.Users.Remove(user);
         await _context.SaveChangesAsync();
     }

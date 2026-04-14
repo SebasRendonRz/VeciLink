@@ -4,14 +4,41 @@
 }
 
 .navbar-vecilink .navbar-brand {
-  color: #ffffff;
-  font-weight: 700;
-  font-size: 1.3rem;
-  letter-spacing: 0.5px;
+  padding: 0;
+  text-decoration: none;
 }
 
-.navbar-vecilink .navbar-brand:hover {
-  color: #e0eaff;
+/* Logo pill container */
+.logo-pill {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 999px;
+  padding: 0.35rem 1rem 0.35rem 0.5rem;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.logo-brand:hover .logo-pill {
+  background: rgba(255, 255, 255, 0.26);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  transform: translateY(-1px) scale(1.02);
+}
+
+.logo-img {
+  height: 40px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.25));
+}
+
+.logo-text {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.22);
+  line-height: 1;
 }
 
 .navbar-vecilink .nav-link {
@@ -55,6 +82,18 @@
 }
 
 @media (max-width: 991.98px) {
+  .logo-img {
+    height: 34px;
+  }
+
+  .logo-text {
+    font-size: 1.15rem;
+  }
+
+  .logo-pill {
+    padding: 0.3rem 0.85rem 0.3rem 0.45rem;
+  }
+
   .navbar-vecilink .navbar-collapse {
     margin-top: 0.9rem;
     padding: 0.75rem;
@@ -86,5 +125,16 @@
     width: 100%;
     margin-top: 0.5rem;
     margin-left: 0 !important;
+  }
+}
+
+/* Extra small: show only logo icon, no text */
+@media (max-width: 575.98px) {
+  .logo-pill {
+    padding: 0.3rem 0.5rem;
+  }
+
+  .logo-img {
+    height: 32px;
   }
 }

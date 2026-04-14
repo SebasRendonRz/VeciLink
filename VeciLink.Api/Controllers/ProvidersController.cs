@@ -18,6 +18,15 @@ public class ProvidersController : ControllerBase
         _providerService = providerService;
     }
 
+    // GET /api/providers — [Authorize(Roles = "Admin")]
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> GetAll()
+    {
+        var result = await _providerService.GetAllProvidersAsync();
+        return Ok(ApiResponse.Ok(result));
+    }
+
     // GET /api/providers/featured — público
     [HttpGet("featured")]
     public async Task<IActionResult> GetFeatured()

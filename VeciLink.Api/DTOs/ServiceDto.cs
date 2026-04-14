@@ -42,6 +42,7 @@ public class ServiceListDto
     public bool IsActive { get; set; }
     public string? CategoryName { get; set; }
     public int ProviderProfileId { get; set; }
+    public int ProviderUserId { get; set; }
     public string? ProviderName { get; set; }
     public double ProviderRatingAverage { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -74,6 +75,7 @@ public class ServiceDetailDto
     public int CategoryId { get; set; }
     public string? CategoryName { get; set; }
     public int ProviderProfileId { get; set; }
+    public int ProviderUserId { get; set; }
     public string? ProviderName { get; set; }
     public double ProviderRatingAverage { get; set; }
     public int ProviderRatingCount { get; set; }
@@ -90,6 +92,7 @@ public class ServiceFilterDto
     public double? Longitude { get; set; }
     public double? RadiusKm { get; set; }
     public bool? IsFeatured { get; set; }
+    public bool? ProviderIsFeatured { get; set; }
     public int? ProviderProfileId { get; set; }
 }
 

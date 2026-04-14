@@ -43,9 +43,9 @@ export class ServiceDetailPageComponent implements OnInit {
       this.service = service;
       this.isLoading = false;
 
-      const providerId = service.providerId || service.providerProfileId;
-      if (providerId) {
-        this.providerService.getProviderProfile(providerId).subscribe(p => {
+      const providerUserId = service.providerUserId;
+      if (providerUserId) {
+        this.providerService.getProviderProfile(providerUserId).subscribe(p => {
           this.provider = p;
         });
       }

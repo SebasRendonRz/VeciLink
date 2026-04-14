@@ -14,8 +14,8 @@ export class TopProvidersSectionComponent implements OnInit {
   constructor(private providerService: ProviderService) {}
 
   ngOnInit(): void {
-    this.providerService.getRanking().subscribe(providers => {
-      this.topProviders = providers.slice(0, 3);
+    this.providerService.getFeatured().subscribe(providers => {
+      this.topProviders = providers.slice(0, 6);
     });
   }
 }

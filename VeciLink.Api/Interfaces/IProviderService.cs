@@ -4,6 +4,7 @@ namespace VeciLink.Api.Interfaces;
 
 public interface IProviderService
 {
+    Task<List<ProviderProfileDto>> GetAllProvidersAsync();
     Task<ProviderProfileDto?> GetProviderProfileAsync(int userId);
     Task<ProviderProfileDto> CreateOrUpdateProviderProfileAsync(int userId, CreateProviderProfileDto dto);
     Task<List<ProviderProfileDto>> GetFeaturedProvidersAsync();

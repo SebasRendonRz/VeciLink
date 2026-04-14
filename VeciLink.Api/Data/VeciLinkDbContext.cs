@@ -135,7 +135,7 @@ public class VeciLinkDbContext : DbContext
             .HasOne(r => r.ReportedService)
             .WithMany()
             .HasForeignKey(r => r.ReportedServiceId)
-            .OnDelete(DeleteBehavior.NoAction)
+            .OnDelete(DeleteBehavior.SetNull)
             .IsRequired(false);
 
         // ServiceRequest

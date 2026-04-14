@@ -32,7 +32,7 @@ export class ProviderServicesListComponent implements OnInit {
     if (!user) { this.router.navigate(['/login']); return; }
 
     this.providerService.getProviderProfileByUserId(user.id).subscribe(p => {
-      this.provider = p;
+      this.provider = p ?? undefined;
       if (p) {
         this.catalogService.getServicesByProvider(p.id).subscribe(list => {
           this.services = list;

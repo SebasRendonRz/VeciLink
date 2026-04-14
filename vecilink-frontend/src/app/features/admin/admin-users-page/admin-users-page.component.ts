@@ -39,13 +39,18 @@ export class AdminUsersPageComponent implements OnInit {
   }
 
   toggleStatus(user: User): void {
-    this.userService.updateProfile(user.id, { isActive: !user.isActive }).subscribe(updated => {
-      if (updated) {
-        const idx = this.users.findIndex(u => u.id === updated!.id);
-        if (idx > -1) this.users[idx] = updated!;
+    const newStatus = !user.isActive;
+    this.userService.toggleStatus(user.id, newStatus).subscribe({
+      next: () => {
+        const idx = this.users.findIndex(u => u.id === user.id);
+        if (idx > -1) this.users[idx] = { ...this.users[idx], isActive: newStatus };
         this.applyFilters();
-        this.alertMessage = `Usuario ${updated!.isActive ? 'activado' : 'desactivado'} correctamente.`;
+        this.alertMessage = `Usuario ${newStatus ? 'activado' : 'desactivado'} correctamente.`;
         this.alertType = 'success';
+      },
+      error: () => {
+        this.alertMessage = 'No se pudo actualizar el estado del usuario.';
+        this.alertType = 'danger';
       }
     });
   }

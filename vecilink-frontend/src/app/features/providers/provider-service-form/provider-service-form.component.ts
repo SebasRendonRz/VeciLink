@@ -60,7 +60,7 @@ export class ProviderServiceFormComponent implements OnInit {
     });
 
     this.providerService.getProviderProfileByUserId(user.id).subscribe(p => {
-      this.provider = p;
+      this.provider = p ?? undefined;
       if (p) {
         // Pre-fill common fields from provider profile
         this.form.patchValue({

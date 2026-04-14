@@ -38,6 +38,10 @@ public class ServiceService : IServiceService
         if (filters.IsFeatured.HasValue)
             query = query.Where(s => s.IsFeatured == filters.IsFeatured.Value);
 
+        if (filters.ProviderIsFeatured.HasValue)
+            query = query.Where(s => s.ProviderProfile != null &&
+                s.ProviderProfile.IsFeatured == filters.ProviderIsFeatured.Value);
+
         if (filters.ProviderProfileId.HasValue)
             query = query.Where(s => s.ProviderProfileId == filters.ProviderProfileId.Value);
 
@@ -218,6 +222,7 @@ public class ServiceService : IServiceService
         IsActive            = s.IsActive,
         CategoryName        = s.Category?.Name,
         ProviderProfileId   = s.ProviderProfileId,
+        ProviderUserId      = s.ProviderProfile?.UserId ?? 0,
         ProviderName        = s.ProviderProfile?.ProviderName,
         ProviderRatingAverage = s.ProviderProfile?.RatingAverage ?? 0,
         CreatedAt           = s.CreatedAt
@@ -243,6 +248,7 @@ public class ServiceService : IServiceService
         CategoryId          = s.CategoryId,
         CategoryName        = s.Category?.Name,
         ProviderProfileId   = s.ProviderProfileId,
+        ProviderUserId      = s.ProviderProfile?.UserId ?? 0,
         ProviderName        = s.ProviderProfile?.ProviderName,
         ProviderRatingAverage = s.ProviderProfile?.RatingAverage ?? 0,
         ProviderRatingCount = s.ProviderProfile?.RatingCount ?? 0,

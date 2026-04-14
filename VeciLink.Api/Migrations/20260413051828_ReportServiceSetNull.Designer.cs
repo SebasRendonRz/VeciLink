@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VeciLink.Api.Data;
 
@@ -11,9 +12,11 @@ using VeciLink.Api.Data;
 namespace VeciLink.Api.Migrations
 {
     [DbContext(typeof(VeciLinkDbContext))]
-    partial class VeciLinkDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260413051828_ReportServiceSetNull")]
+    partial class ReportServiceSetNull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

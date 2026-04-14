@@ -9,7 +9,7 @@ export class RatingService extends ApiBaseService {
   constructor(http: HttpClient) { super(http); }
 
   listRatings(serviceId: number): Observable<Rating[]> {
-    return this.unwrap(this.http.get<ApiResponse<Rating[]>>(`${this.baseUrl}/ratings`, { params: { serviceId: serviceId.toString() } }));
+    return this.unwrap(this.http.get<ApiResponse<Rating[]>>(`${this.baseUrl}/ratings/service/${serviceId}`));
   }
 
   addRating(rating: Omit<Rating, 'id'>): Observable<Rating> {

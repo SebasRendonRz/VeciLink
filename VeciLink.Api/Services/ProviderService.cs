@@ -15,6 +15,16 @@ public class ProviderService : IProviderService
         _context = context;
     }
 
+    public async Task<List<ProviderProfileDto>> GetAllProvidersAsync()
+    {
+        return await _context.ProviderProfiles
+            .AsNoTracking()
+            .OrderByDescending(pp => pp.IsFeatured)
+            .ThenByDescending(pp => pp.RatingAverage)
+            .Select(pp => MapToDto(pp))
+            .ToListAsync();
+    }
+
     public async Task<ProviderProfileDto?> GetProviderProfileAsync(int userId)
     {
         var profile = await _context.ProviderProfiles
@@ -65,24 +75,50 @@ public class ProviderService : IProviderService
 
     public async Task<List<ProviderRankingDto>> GetProviderRankingAsync()
     {
-        return await _context.ProviderProfiles
+        // Aggregate ratings live from the Ratings table so providers are
+        // always ranked by their real data, regardless of the cached fields.
+        var ratingStats = await _context.Ratings
             .AsNoTracking()
-            .Where(pp => pp.RatingCount > 0)
-            .OrderByDescending(pp => pp.RatingAverage)
-            .ThenByDescending(pp => pp.RatingCount)
-            .Take(50)
-            .Select(pp => new ProviderRankingDto
+            .GroupBy(r => r.Service.ProviderProfileId)
+            .Select(g => new
             {
-                Id              = pp.Id,
-                ProviderId      = pp.Id,
-                ProviderName    = pp.ProviderName,
-                RatingAverage   = pp.RatingAverage,
-                RatingCount     = pp.RatingCount,
-                Neighborhood    = pp.Neighborhood,
-                PhotoUrl        = pp.PhotoUrl,
-                IsFeatured      = pp.IsFeatured
+                ProviderProfileId = g.Key,
+                Average           = g.Average(r => (double)r.Stars),
+                Count             = g.Count()
             })
+            .OrderByDescending(g => g.Average)
+            .ThenByDescending(g => g.Count)
+            .Take(50)
             .ToListAsync();
+
+        if (ratingStats.Count == 0)
+            return new List<ProviderRankingDto>();
+
+        var profileIds = ratingStats.Select(rs => rs.ProviderProfileId).ToList();
+
+        var profiles = await _context.ProviderProfiles
+            .AsNoTracking()
+            .Where(pp => profileIds.Contains(pp.Id))
+            .ToDictionaryAsync(pp => pp.Id);
+
+        return ratingStats
+            .Where(rs => profiles.ContainsKey(rs.ProviderProfileId))
+            .Select(rs =>
+            {
+                var pp = profiles[rs.ProviderProfileId];
+                return new ProviderRankingDto
+                {
+                    Id            = pp.Id,
+                    ProviderId    = pp.Id,
+                    ProviderName  = pp.ProviderName,
+                    RatingAverage = Math.Round(rs.Average, 2),
+                    RatingCount   = rs.Count,
+                    Neighborhood  = pp.Neighborhood,
+                    PhotoUrl      = pp.PhotoUrl,
+                    IsFeatured    = pp.IsFeatured
+                };
+            })
+            .ToList();
     }
 
     public async Task<bool> ToggleFeaturedAsync(int providerId, bool isFeatured)

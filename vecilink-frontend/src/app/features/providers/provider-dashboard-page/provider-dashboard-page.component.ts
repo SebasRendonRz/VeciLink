@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { ProviderService } from '../../../core/services/provider.service';
 import { ServiceCatalogService } from '../../../core/services/service-catalog.service';
@@ -36,11 +38,11 @@ export class ProviderDashboardPageComponent implements OnInit {
         this.stats.ratingAverage = profile.ratingAverage ?? 0;
         this.stats.isFeatured = profile.isFeatured;
 
-        this.serviceCatalogService.getServicesByProvider(profile.id).subscribe(services => {
+        forkJoin({
+          services: this.serviceCatalogService.getServicesByProvider(profile.id).pipe(catchError(() => of([]))),
+          requests: this.requestHistoryService.listRequestsByProvider(profile.id).pipe(catchError(() => of([])))
+        }).subscribe(({ services, requests }) => {
           this.stats.activeServices = services.length;
-        });
-
-        this.requestHistoryService.listRequestsByProvider(profile.id).subscribe(requests => {
           this.stats.totalRequests = requests.length;
           this.isLoading = false;
         });

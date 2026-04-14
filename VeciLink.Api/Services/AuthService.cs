@@ -69,6 +69,18 @@ public class AuthService : IAuthService
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
+        var providerProfile = new ProviderProfile
+        {
+            UserId = user.Id,
+            ProviderName = dto.ProviderName,
+            Schedule = dto.Schedule,
+            Availability = dto.Availability,
+            Description = dto.Description,
+            Neighborhood = dto.Neighborhood
+        };
+        _context.ProviderProfiles.Add(providerProfile);
+        await _context.SaveChangesAsync();
+
         return BuildAuthResponse(user);
     }
 

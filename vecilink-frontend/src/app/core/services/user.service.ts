@@ -23,7 +23,7 @@ export class UserService extends ApiBaseService {
   }
 
   updateProfile(userId: number, data: Partial<User>): Observable<User> {
-    return this.unwrap(this.http.put<ApiResponse<User>>(`${this.baseUrl}/users/${userId}`, data)).pipe(
+    return this.unwrap(this.http.put<ApiResponse<User>>(`${this.baseUrl}/users/profile`, data)).pipe(
       map(user => this.normalizeUser(user))
     );
   }
@@ -32,6 +32,10 @@ export class UserService extends ApiBaseService {
     return this.unwrap(this.http.get<ApiResponse<User[]>>(`${this.baseUrl}/users`)).pipe(
       map(users => users.map(user => this.normalizeUser(user)))
     );
+  }
+
+  toggleStatus(userId: number, isActive: boolean): Observable<void> {
+    return this.http.put<void>(`${this.baseUrl}/users/${userId}/status`, null, { params: { isActive: String(isActive) } });
   }
 
   deleteUser(userId: number): Observable<boolean> {

@@ -18,7 +18,7 @@ export class AdminFeaturedPageComponent implements OnInit {
   constructor(private providerService: ProviderService) {}
 
   ngOnInit(): void {
-    this.providerService.getRanking().pipe(finalize(() => this.isLoading = false)).subscribe(data => {
+    this.providerService.getAllProviders().pipe(finalize(() => this.isLoading = false)).subscribe(data => {
       this.providers = data;
     });
   }

@@ -17,7 +17,7 @@ export class RequestHistoryService extends ApiBaseService {
   }
 
   listRequestsByProvider(providerId: number): Observable<ServiceRequest[]> {
-    return this.unwrap(this.http.get<ApiResponse<ServiceRequest[]>>(`${this.baseUrl}/service-requests`, { params: { providerId: providerId.toString() } }));
+    return this.unwrap(this.http.get<ApiResponse<ServiceRequest[]>>(`${this.baseUrl}/service-requests/provider-history`));
   }
 
   registerRequest(userId: number, serviceId: number): Observable<ServiceRequest> {

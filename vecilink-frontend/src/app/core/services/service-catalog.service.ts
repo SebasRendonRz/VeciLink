@@ -26,7 +26,7 @@ export class ServiceCatalogService extends ApiBaseService {
   }
 
   getFeaturedServices(): Observable<ServiceItem[]> {
-    return this.unwrap(this.http.get<ApiResponse<ServiceItem[]>>(`${this.baseUrl}/services`, { params: { isFeatured: 'true' } }));
+    return this.unwrap(this.http.get<ApiResponse<ServiceItem[]>>(`${this.baseUrl}/services`, { params: { providerIsFeatured: 'true' } }));
   }
 
   getServicesByProvider(providerProfileId: number): Observable<ServiceItem[]> {

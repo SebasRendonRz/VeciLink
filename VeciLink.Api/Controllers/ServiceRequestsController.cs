@@ -28,6 +28,16 @@ public class ServiceRequestsController : ControllerBase
         return Ok(ApiResponse.Ok(result, "Solicitud creada correctamente."));
     }
 
+    // GET /api/service-requests — [Authorize(Roles = "Provider")] (alias de provider-history)
+    [HttpGet]
+    [Authorize(Roles = "Provider")]
+    public async Task<IActionResult> GetRequests()
+    {
+        var userId = int.Parse(User.FindFirstValue("userId")!);
+        var result = await _requestService.GetProviderHistoryAsync(userId);
+        return Ok(ApiResponse.Ok(result));
+    }
+
     // GET /api/service-requests/my-history — [Authorize]
     [HttpGet("my-history")]
     [Authorize]

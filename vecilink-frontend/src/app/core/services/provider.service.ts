@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ProviderProfile } from '../models';
 import { ApiBaseService, ApiResponse } from './api-base.service';
 
@@ -30,9 +30,10 @@ export class ProviderService extends ApiBaseService {
     );
   }
 
-  getProviderProfileByUserId(userId: number): Observable<ProviderProfile> {
+  getProviderProfileByUserId(userId: number): Observable<ProviderProfile | null> {
     return this.unwrap(this.http.get<ApiResponse<ProviderProfile>>(`${this.baseUrl}/providers/${userId}`)).pipe(
-      map(provider => this.normalizeProvider(provider))
+      map(provider => this.normalizeProvider(provider)),
+      catchError(() => of(null))
     );
   }
 
@@ -42,8 +43,20 @@ export class ProviderService extends ApiBaseService {
     );
   }
 
+  getFeatured(): Observable<ProviderProfile[]> {
+    return this.unwrap(this.http.get<ApiResponse<ProviderProfile[]>>(`${this.baseUrl}/providers/featured`)).pipe(
+      map(providers => providers.map(provider => this.normalizeProvider(provider)))
+    );
+  }
+
   getRanking(): Observable<ProviderProfile[]> {
     return this.unwrap(this.http.get<ApiResponse<ProviderProfile[]>>(`${this.baseUrl}/providers/ranking`)).pipe(
+      map(providers => providers.map(provider => this.normalizeProvider(provider)))
+    );
+  }
+
+  getAllProviders(): Observable<ProviderProfile[]> {
+    return this.unwrap(this.http.get<ApiResponse<ProviderProfile[]>>(`${this.baseUrl}/providers`)).pipe(
       map(providers => providers.map(provider => this.normalizeProvider(provider)))
     );
   }
