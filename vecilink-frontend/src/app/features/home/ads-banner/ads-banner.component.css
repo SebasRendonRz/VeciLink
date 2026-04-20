@@ -1,11 +1,116 @@
+/* ── Wrapper ─────────────────────────────────────────── */
 .ads-banner-wrapper {
   background: #f0f0f0;
   border-top: 1px solid #e0e0e0;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.ads-banner-img {
-  border-radius: 8px;
-  max-height: 100px;
-  object-fit: cover;
+/* ── Carousel container ──────────────────────────────── */
+.ads-carousel {
+  border-radius: 10px;
+  overflow: hidden;
 }
+
+/* ── Track & slides ──────────────────────────────────── */
+.ads-track {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.ads-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.ads-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Image ───────────────────────────────────────────── */
+.ads-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 10px;
+}
+
+/* ── Prev / Next controls ────────────────────────────── */
+.ads-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.35);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  padding: 0;
+  line-height: 1;
+}
+
+.ads-control:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.ads-control--prev { left: 8px; }
+.ads-control--next { right: 8px; }
+
+.ads-arrow {
+  color: #fff;
+  font-size: 1.4rem;
+  user-select: none;
+}
+
+/* ── Dot indicators ──────────────────────────────────── */
+.ads-indicators {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+  z-index: 10;
+}
+
+.ads-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.55);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.ads-dot.active {
+  background: #fff;
+  transform: scale(1.25);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+/* aspect-ratio: 16/9 auto-adapts to any screen width — no fixed heights needed */
+@media (max-width: 576px) {
+  .ads-control {
+    width: 28px;
+    height: 28px;
+  }
+
+  .ads-arrow {
+    font-size: 1.1rem;
+  }
+}
+

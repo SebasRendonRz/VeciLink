@@ -13,10 +13,13 @@
   background: rgba(255, 255, 255, 0.15);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 999px;
-  padding: 0.35rem 1rem 0.35rem 0.5rem;
+  padding: 0.35rem 0.75rem;
   backdrop-filter: blur(6px);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
   transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  overflow: visible;
 }
 
 .logo-brand:hover .logo-pill {
@@ -26,19 +29,12 @@
 }
 
 .logo-img {
-  height: 40px;
+  height: 52px;
   width: auto;
+  max-width: none;
   display: block;
+  object-fit: contain;
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.25));
-}
-
-.logo-text {
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: 0.4px;
-  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.22);
-  line-height: 1;
 }
 
 .navbar-vecilink .nav-link {
@@ -83,15 +79,11 @@
 
 @media (max-width: 991.98px) {
   .logo-img {
-    height: 34px;
-  }
-
-  .logo-text {
-    font-size: 1.15rem;
+    height: 44px;
   }
 
   .logo-pill {
-    padding: 0.3rem 0.85rem 0.3rem 0.45rem;
+    padding: 0.3rem 0.65rem;
   }
 
   .navbar-vecilink .navbar-collapse {
@@ -128,13 +120,13 @@
   }
 }
 
-/* Extra small: show only logo icon, no text */
+/* Extra small */
 @media (max-width: 575.98px) {
   .logo-pill {
-    padding: 0.3rem 0.5rem;
+    padding: 0.25rem 0.5rem;
   }
 
   .logo-img {
-    height: 32px;
+    height: 38px;
   }
 }

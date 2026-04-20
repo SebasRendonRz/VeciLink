@@ -46,6 +46,8 @@ public class ServiceListDto
     public string? ProviderName { get; set; }
     public double ProviderRatingAverage { get; set; }
     public DateTime CreatedAt { get; set; }
+    public double? Latitude { get; set; }
+    public double? Longitude { get; set; }
 }
 
 public class ServicePhotoDto

@@ -225,7 +225,9 @@ public class ServiceService : IServiceService
         ProviderUserId      = s.ProviderProfile?.UserId ?? 0,
         ProviderName        = s.ProviderProfile?.ProviderName,
         ProviderRatingAverage = s.ProviderProfile?.RatingAverage ?? 0,
-        CreatedAt           = s.CreatedAt
+        CreatedAt           = s.CreatedAt,
+        Latitude            = s.Latitude,
+        Longitude           = s.Longitude
     };
 
     private static ServiceDetailDto MapToDetailDto(Service s) => new()

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AdvertisementService } from '../../../core/services/advertisement.service';
 import { Advertisement } from '../../../core/models';
 
@@ -8,17 +8,59 @@ import { Advertisement } from '../../../core/models';
   templateUrl: './ads-banner.component.html',
   styleUrls: ['./ads-banner.component.css']
 })
-export class AdsBannerComponent implements OnInit {
-  currentAd: Advertisement | null = null;
+export class AdsBannerComponent implements OnInit, OnDestroy {
+  ads: Advertisement[] = [];
+  currentIndex = 0;
+  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private readonly AUTO_PLAY_MS = 5000;
 
   constructor(private adService: AdvertisementService) {}
 
   ngOnInit(): void {
     this.adService.listActiveAds().subscribe(ads => {
-      if (ads.length > 0) {
-        const index = Math.floor(Math.random() * ads.length);
-        this.currentAd = ads[index];
+      this.ads = ads;
+      if (this.ads.length > 1) {
+        this.startAutoPlay();
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoPlay();
+  }
+
+  next(): void {
+    this.currentIndex = (this.currentIndex + 1) % this.ads.length;
+    this.restartAutoPlay();
+  }
+
+  prev(): void {
+    this.currentIndex = (this.currentIndex - 1 + this.ads.length) % this.ads.length;
+    this.restartAutoPlay();
+  }
+
+  goTo(index: number): void {
+    this.currentIndex = index;
+    this.restartAutoPlay();
+  }
+
+  private startAutoPlay(): void {
+    this.intervalId = setInterval(() => {
+      this.currentIndex = (this.currentIndex + 1) % this.ads.length;
+    }, this.AUTO_PLAY_MS);
+  }
+
+  private stopAutoPlay(): void {
+    if (this.intervalId !== null) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+    }
+  }
+
+  private restartAutoPlay(): void {
+    this.stopAutoPlay();
+    if (this.ads.length > 1) {
+      this.startAutoPlay();
+    }
   }
 }

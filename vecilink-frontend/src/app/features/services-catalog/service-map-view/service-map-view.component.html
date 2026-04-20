@@ -1,16 +1,9 @@
 <div class="map-wrapper">
-  <!-- Aviso: requiere API key de Google Maps para renderizar el mapa interactivo -->
-  @if (!mapsApiKey) {
-  <div class="map-placeholder d-flex align-items-center justify-content-center">
-    <div class="text-center text-muted">
-      <i class="bi bi-map display-3 mb-3"></i>
-      <p class="mb-1 fw-semibold">Vista de mapa</p>
-      <p class="small">Configura tu Google Maps API key en <code>environment.ts</code> para ver el mapa interactivo.</p>
-    </div>
-  </div>
-  }
 
-  <!-- Tabla de servicios con ubicación -->
+  <!-- Contenedor del mapa Leaflet -->
+  <div #mapContainer class="map-container"></div>
+
+  <!-- Lista lateral de servicios con ubicación -->
   <div class="services-map-list mt-3">
     <p class="text-muted small mb-2">
       <i class="bi bi-pin-map me-1"></i>
@@ -18,36 +11,43 @@
     </p>
 
     @if (mappableServices.length === 0) {
-    <app-empty-state icon="bi-geo-alt-fill" title="Sin ubicaciones"
-      message="Ningún servicio filtrado tiene coordenadas registradas.">
-    </app-empty-state>
+      <app-empty-state
+        icon="bi-geo-alt-fill"
+        title="Sin ubicaciones"
+        message="Ningún servicio filtrado tiene coordenadas registradas.">
+      </app-empty-state>
     }
 
     @if (mappableServices.length > 0) {
-    <div class="row g-2">
-      @for (service of mappableServices; track service.id) {
-      <div class="map-service-card card border-0 shadow-sm p-3 clickable-card"
-        [class.selected]="selectedService?.id === service.id" (click)="selectService(service)">
-        <div class="d-flex align-items-start gap-2">
-          <i class="bi bi-geo-alt-fill text-primary mt-1"></i>
-          <div class="flex-grow-1 overflow-hidden">
-            <p class="fw-semibold mb-0 text-truncate">{{ service.serviceName }}</p>
-            <small class="text-muted">{{ service.neighborhood }}</small>
-            @if (selectedService?.id === service.id) {
-            <div class="mt-2">
-              <small class="d-block text-muted mb-1">
-                <i class="bi bi-pin me-1"></i>{{ service.latitude }}, {{ service.longitude }}
-              </small>
-              <button class="btn btn-primary btn-sm" (click)="goToDetail(service.id)">
-                Ver detalle
-              </button>
+      <div class="row g-2">
+        @for (service of mappableServices; track service.id) {
+          <div class="col-12">
+            <div class="map-service-card card border-0 shadow-sm p-3"
+              [class.selected]="selectedService?.id === service.id"
+              (click)="selectService(service)">
+              <div class="d-flex align-items-start gap-2">
+                <i class="bi bi-geo-alt-fill text-primary mt-1"></i>
+                <div class="flex-grow-1 overflow-hidden">
+                  <p class="fw-semibold mb-0 text-truncate">{{ service.serviceName }}</p>
+                  <small class="text-muted">{{ service.neighborhood }}</small>
+                  @if (selectedService?.id === service.id) {
+                    <div class="mt-2">
+                      <small class="d-block text-muted mb-1">
+                        <i class="bi bi-pin me-1"></i>{{ service.latitude }}, {{ service.longitude }}
+                      </small>
+                      <button
+                        class="btn btn-primary btn-sm"
+                        (click)="goToDetail(service.id); $event.stopPropagation()">
+                        Ver detalle
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
             </div>
-            }
           </div>
-        </div>
+        }
       </div>
-      }
-    </div>
     }
   </div>
 </div>

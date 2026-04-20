@@ -1,9 +1,46 @@
-@if (currentAd) {
+@if (ads.length > 0) {
 <div class="ads-banner-wrapper">
   <div class="container py-3">
-    <a [href]="currentAd.redirectUrl || '#'" target="_blank" rel="noopener" class="d-block">
-      <img [src]="currentAd.imageUrl" [alt]="currentAd.title" class="ads-banner-img img-fluid w-100">
-    </a>
+
+    <div class="ads-carousel position-relative">
+
+      <!-- Slides -->
+      <div class="ads-track overflow-hidden">
+        @for (ad of ads; track ad.id; let i = $index) {
+          <div class="ads-slide" [class.active]="i === currentIndex">
+            <a [href]="ad.redirectUrl || '#'" target="_blank" rel="noopener noreferrer">
+              <img [src]="ad.imageUrl" [alt]="ad.title" class="ads-img">
+            </a>
+          </div>
+        }
+      </div>
+
+      <!-- Prev / Next arrows (only when more than 1 ad) -->
+      @if (ads.length > 1) {
+        <button class="ads-control ads-control--prev" (click)="prev()" aria-label="Anterior">
+          <span class="ads-arrow">&#8249;</span>
+        </button>
+        <button class="ads-control ads-control--next" (click)="next()" aria-label="Siguiente">
+          <span class="ads-arrow">&#8250;</span>
+        </button>
+      }
+
+      <!-- Dot indicators -->
+      @if (ads.length > 1) {
+        <div class="ads-indicators">
+          @for (ad of ads; track ad.id; let i = $index) {
+            <button
+              class="ads-dot"
+              [class.active]="i === currentIndex"
+              (click)="goTo(i)"
+              [attr.aria-label]="'Ir al anuncio ' + (i + 1)">
+            </button>
+          }
+        </div>
+      }
+
+    </div><!-- /.ads-carousel -->
+
   </div>
 </div>
 }

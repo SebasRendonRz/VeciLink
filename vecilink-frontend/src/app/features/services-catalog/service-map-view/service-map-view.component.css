@@ -1,23 +1,82 @@
-.map-placeholder {
-  height: clamp(260px, 45vh, 360px);
-  background: #e9ecef;
+/* ── Contenedor del mapa ─────────────────────────────────────── */
+.map-container {
+  height: clamp(300px, 50vh, 480px);
+  width: 100%;
   border-radius: 12px;
-  border: 2px dashed #ced4da;
+  overflow: hidden;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  /* z-index necesario para que Leaflet quede por encima de otros elementos */
+  z-index: 0;
+  position: relative;
 }
 
+/* ── Popup personalizado del marcador ────────────────────────── */
+:global(.vl-popup) {
+  font-family: inherit;
+  min-width: 160px;
+}
+
+:global(.vl-popup__title) {
+  font-weight: 600;
+  margin: 0 0 2px;
+  font-size: 0.9rem;
+}
+
+:global(.vl-popup__neighborhood) {
+  color: #6c757d;
+  font-size: 0.8rem;
+  margin: 0 0 6px;
+}
+
+:global(.vl-popup__badge) {
+  display: inline-block;
+  background: #e7f0fd;
+  color: #1a56db;
+  font-size: 0.72rem;
+  padding: 1px 7px;
+  border-radius: 999px;
+  margin-bottom: 8px;
+}
+
+:global(.vl-popup__btn) {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 4px 0;
+  background: var(--color-primary, #0d6efd);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+:global(.vl-popup__btn:hover) {
+  opacity: 0.88;
+}
+
+/* ── Tarjetas de servicio ─────────────────────────────────────── */
 .map-service-card {
   border-radius: 10px;
+  cursor: pointer;
   transition: box-shadow 0.15s, border-color 0.15s;
   border: 2px solid transparent !important;
 }
 
+.map-service-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
 .map-service-card.selected {
-  border-color: var(--color-primary) !important;
+  border-color: var(--color-primary, #0d6efd) !important;
   background: #f0f5ff;
 }
 
+/* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 575.98px) {
-  .map-placeholder {
+  .map-container {
     height: 260px;
   }
 }
