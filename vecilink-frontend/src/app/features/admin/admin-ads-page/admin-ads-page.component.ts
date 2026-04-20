@@ -17,6 +17,8 @@ export class AdminAdsPageComponent implements OnInit {
   formData: Partial<Advertisement> = {};
   alertMessage = '';
   alertType: 'success' | 'danger' = 'success';
+  imagePreview: string | null = null;
+  selectedImageFile: File | null = null;
 
   constructor(private adService: AdvertisementService) {}
 
@@ -34,13 +36,29 @@ export class AdminAdsPageComponent implements OnInit {
   openCreate(): void {
     this.editingId = null;
     this.formData = { isActive: true };
+    this.imagePreview = null;
+    this.selectedImageFile = null;
     this.showForm = true;
   }
 
   openEdit(ad: Advertisement): void {
     this.editingId = ad.id;
     this.formData = { ...ad };
+    this.imagePreview = ad.imageUrl || null;
+    this.selectedImageFile = null;
     this.showForm = true;
+  }
+
+  onImageSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.selectedImageFile = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result as string;
+      this.formData.imageUrl = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 
   saveForm(): void {
