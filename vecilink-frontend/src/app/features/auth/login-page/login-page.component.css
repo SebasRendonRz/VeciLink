@@ -1,11 +1,98 @@
 .login-bg {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #1a4a9e 100%);
+  background: #ffffff;
   padding: 1rem;
 }
 
 .login-card {
   width: 100%;
   max-width: 420px;
-  border-radius: 12px;
+  border-radius: 16px;
   border: none;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  background-color: #2D6CDF;
+}
+
+/* Logo */
+.login-card .logo-login {
+  height: 56px;
+  width: auto;
+}
+
+/* Título */
+.login-card h1 {
+  color: #ffffff;
+}
+
+/* Subtítulo */
+.login-card .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+/* Labels */
+.login-card .form-label {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+/* Inputs */
+.login-card .form-control {
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 8px;
+  color: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.login-card .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.login-card .form-control:focus {
+  border-color: #2ECC71;
+  box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.25);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Botón principal — verde de marca */
+.login-card .btn-primary {
+  background-color: #2ECC71;
+  border-color: #27b960;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.6rem;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.login-card .btn-primary:hover:not(:disabled) {
+  background-color: #27b960;
+  border-color: #21a354;
+  transform: translateY(-1px);
+}
+
+.login-card .btn-primary:disabled {
+  background-color: #7de3a8;
+  border-color: #7de3a8;
+}
+
+/* Separador */
+.login-card hr {
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Texto pie */
+.login-card p.text-center {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Enlace */
+.login-card .link-primary {
+  color: #2ECC71;
+  text-decoration: none;
+}
+
+.login-card .link-primary:hover {
+  color: #27b960;
+  text-decoration: underline;
 }

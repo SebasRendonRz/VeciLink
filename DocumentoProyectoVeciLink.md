@@ -182,3 +182,97 @@ Se realizaron pruebas manuales sobre los flujos principales del sistema:
 - Validación de la interfaz responsive en distintos tamaños de pantalla.
 
 ---
+
+## 7. Resultados del Proyecto
+
+El proyecto VeciLink alcanzó un estado funcional para su alcance definido de MVP, con los siguientes resultados concretos:
+
+- Implementación de autenticación con registro e inicio de sesión por roles (ciudadano, prestador y administrador).
+- Publicación y gestión de servicios por parte de prestadores, incluyendo categoría, descripción, barrio, horario, precio y contacto por WhatsApp.
+- Búsqueda de servicios mediante filtros por categoría, barrio y palabra clave.
+- Visualización de servicios con información unificada del prestador y sus calificaciones.
+- Módulo de calificaciones y ranking para apoyar la toma de decisiones de los ciudadanos.
+- Panel administrativo para gestión de categorías, moderación de contenido y control básico de usuarios y servicios.
+- Soporte de perfiles destacados y publicidad local como base de monetización inicial.
+
+Frente al problema inicial, se logró pasar de un proceso informal y disperso de recomendación de servicios a un canal digital centralizado y consultable por la comunidad. Además, se automatizaron procesos clave que antes eran manuales o no estructurados:
+
+- Clasificación de servicios por categorías y zonas.
+- Registro y trazabilidad de solicitudes de contacto.
+- Consolidación de calificaciones para construir reputación visible.
+- Gestión administrativa de categorías y reportes desde una sola interfaz.
+
+---
+
+## 8. Evidencias
+
+Para la sustentación del proyecto se incluyen las siguientes evidencias:
+
+- Capturas de pantalla de los módulos principales (autenticación, búsqueda, publicación de servicios, panel administrativo).
+- Flujo de uso del sistema por actor (ciudadano, prestador, administrador).
+- Repositorio del proyecto: [URL]
+
+---
+
+## 9. Manual Básico de Uso
+
+### 9.1 Ciudadano
+
+1. Registrarse en la plataforma con correo y contraseña, o iniciar sesión si ya posee cuenta.
+2. Acceder al catálogo de servicios y aplicar filtros por categoría, barrio o palabra clave.
+3. Seleccionar un servicio para revisar su información detallada.
+4. Contactar al prestador mediante el botón de WhatsApp.
+5. Registrar calificación y comentario después de recibir el servicio.
+6. Guardar servicios de interés en favoritos para consultas posteriores.
+
+### 9.2 Prestador
+
+1. Registrarse como prestador e iniciar sesión.
+2. Completar el perfil profesional con datos de contacto, zona y descripción.
+3. Crear uno o más servicios con categoría, descripción, horario, disponibilidad y precio.
+4. Actualizar la información de servicios cuando cambien condiciones u horarios.
+5. Revisar interacciones recibidas y mantener vigentes los servicios activos.
+
+### 9.3 Administrador
+
+1. Iniciar sesión con credenciales de administrador.
+2. Gestionar categorías del sistema (crear, editar, eliminar).
+3. Supervisar usuarios y servicios publicados para control de calidad y cumplimiento.
+4. Atender reportes y aplicar acciones de moderación cuando corresponda.
+5. Administrar perfiles destacados y espacios de publicidad local.
+
+---
+
+## 10. Impacto del Proyecto en la Comunidad
+
+VeciLink aporta valor directo a la comunidad al mejorar la forma en que ciudadanos y prestadores se conectan para resolver necesidades cotidianas. Su impacto principal se refleja en:
+
+- Mayor acceso a servicios locales, gracias a una búsqueda estructurada por categoría y barrio.
+- Mayor visibilidad para prestadores independientes, que ahora cuentan con un canal digital para exhibir su oferta.
+- Incremento de confianza entre usuarios, sustentado en calificaciones y comentarios públicos.
+- Reducción del tiempo de búsqueda y contacto, al concentrar información y canales de comunicación en una sola plataforma.
+- Dinamización de la economía local, al facilitar la contratación de servicios dentro del entorno comunitario.
+
+---
+
+## 11. Recomendaciones
+
+Como línea de evolución del sistema, se recomienda priorizar:
+
+1. Integración de pagos en línea para cerrar el ciclo de contratación dentro de la plataforma.
+2. Desarrollo de aplicación móvil nativa o híbrida para aumentar cobertura y frecuencia de uso.
+3. Implementación de geolocalización avanzada con búsqueda por proximidad y mapa interactivo mejorado.
+4. Incorporación de un sistema de verificación de usuarios y prestadores para fortalecer confianza y seguridad.
+5. Definición de métricas operativas y panel de analítica para seguimiento de uso, conversión y calidad del servicio.
+
+---
+
+## 13. Anexos
+
+Se adjuntan como material complementario del proyecto:
+
+- Diagramas de análisis y diseño (MER, diagrama de clases y casos de uso).
+- Modelo de base de datos con entidades, relaciones y restricciones principales.
+- Historias de usuario utilizadas para definir funcionalidades del MVP.
+
+---

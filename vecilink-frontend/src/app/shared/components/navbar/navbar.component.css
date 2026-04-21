@@ -1,45 +1,39 @@
 .navbar-vecilink {
-  background-color: var(--color-primary);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background-color: #222831;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  min-height: 90px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .navbar-vecilink .navbar-brand {
   padding: 0;
+  margin-right: 2rem;
   text-decoration: none;
-}
-
-/* Logo pill container */
-.logo-pill {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 999px;
-  padding: 0.35rem 0.75rem;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
-  transition: background 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
   display: flex;
   align-items: center;
-  overflow: visible;
 }
 
-.logo-brand:hover .logo-pill {
-  background: rgba(255, 255, 255, 0.26);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
-  transform: translateY(-1px) scale(1.02);
-}
-
+/* Logo */
 .logo-img {
-  height: 52px;
+  height: 90px;
   width: auto;
   max-width: none;
   display: block;
   object-fit: contain;
-  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.25));
+  flex-shrink: 0;
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.logo-brand:hover .logo-img {
+  filter: brightness(1.12);
+  transform: scale(1.03);
 }
 
 .navbar-vecilink .nav-link {
   color: rgba(255, 255, 255, 0.88);
   font-weight: 500;
+  font-size: 1rem;
   transition: color 0.2s;
 }
 
@@ -79,11 +73,7 @@
 
 @media (max-width: 991.98px) {
   .logo-img {
-    height: 44px;
-  }
-
-  .logo-pill {
-    padding: 0.3rem 0.65rem;
+    height: 64px;
   }
 
   .navbar-vecilink .navbar-collapse {
@@ -122,11 +112,7 @@
 
 /* Extra small */
 @media (max-width: 575.98px) {
-  .logo-pill {
-    padding: 0.25rem 0.5rem;
-  }
-
   .logo-img {
-    height: 38px;
+    height: 52px;
   }
 }
