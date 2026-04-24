@@ -75,4 +75,31 @@ public class ProvidersController : ControllerBase
 
         return Ok(ApiResponse.Ok($"Prestador {(isFeatured ? "marcado como destacado" : "quitado de destacados")}."));
     }
+
+    // GET /api/providers/{id}/quota — [Authorize(Roles = "Admin,Provider")]
+    [HttpGet("{id:int}/quota")]
+    [Authorize(Roles = "Admin,Provider")]
+    public async Task<IActionResult> GetQuota(int id)
+    {
+        var result = await _providerService.GetProviderQuotaAsync(id);
+        if (result is null)
+            return NotFound(ApiResponse.Fail("Perfil de prestador no encontrado."));
+
+        return Ok(ApiResponse.Ok(result));
+    }
+
+    // PUT /api/providers/{id}/quota — [Authorize(Roles = "Admin")]
+    [HttpPut("{id:int}/quota")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> UpdateQuota(int id, [FromBody] UpdateProviderQuotaDto dto)
+    {
+        if (dto.MaxServicesAllowed < 1)
+            return BadRequest(ApiResponse.Fail("El número máximo de servicios debe ser al menos 1."));
+
+        var success = await _providerService.UpdateMaxServicesAllowedAsync(id, dto.MaxServicesAllowed);
+        if (!success)
+            return NotFound(ApiResponse.Fail("Perfil de prestador no encontrado."));
+
+        return Ok(ApiResponse.Ok($"Cupo actualizado a {dto.MaxServicesAllowed} servicio(s)."));
+    }
 }

@@ -4,6 +4,7 @@ import { ServiceCatalogService } from '../../../core/services/service-catalog.se
 import { ProviderService } from '../../../core/services/provider.service';
 import { FavoriteService } from '../../../core/services/favorite.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { RequestHistoryService } from '../../../core/services/request-history.service';
 import { ServiceItem, ProviderProfile } from '../../../core/models';
 
 @Component({
@@ -27,7 +28,8 @@ export class ServiceDetailPageComponent implements OnInit {
     private serviceCatalogService: ServiceCatalogService,
     private providerService: ProviderService,
     private favoriteService: FavoriteService,
-    private authService: AuthService
+    private authService: AuthService,
+    private requestHistoryService: RequestHistoryService
   ) { }
 
   ngOnInit(): void {
@@ -70,6 +72,13 @@ export class ServiceDetailPageComponent implements OnInit {
       this.favoriteService.addFavorite(user.id, this.service!.id).subscribe(() => {
         this.isFavorite = true;
       });
+    }
+  }
+
+  onContactProvider(): void {
+    const user = this.authService.getCurrentUser();
+    if (user && user.role === 'citizen' && this.service) {
+      this.requestHistoryService.registerRequest(user.id, this.service.id).subscribe();
     }
   }
 

@@ -39,4 +39,13 @@ public class NotificationsController : ControllerBase
 
         return Ok(ApiResponse.Ok("Notificación marcada como leída."));
     }
+
+    // PUT /api/notifications/read-all — [Authorize]
+    [HttpPut("read-all")]
+    public async Task<IActionResult> MarkAllAsRead()
+    {
+        var userId = int.Parse(User.FindFirstValue("userId")!);
+        await _notificationService.MarkAllAsReadAsync(userId);
+        return Ok(ApiResponse.Ok("Todas las notificaciones marcadas como leídas."));
+    }
 }

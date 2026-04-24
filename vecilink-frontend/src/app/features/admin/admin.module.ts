@@ -12,6 +12,7 @@ import { AdminCategoriesPageComponent } from './admin-categories-page/admin-cate
 import { AdminFeaturedPageComponent } from './admin-featured-page/admin-featured-page.component';
 import { AdminAdsPageComponent } from './admin-ads-page/admin-ads-page.component';
 import { AdminReportsPageComponent } from './admin-reports-page/admin-reports-page.component';
+import { AdminProviderQuotaPageComponent } from './admin-provider-quota-page/admin-provider-quota-page.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'featured', component: AdminFeaturedPageComponent },
       { path: 'ads', component: AdminAdsPageComponent },
       { path: 'reports', component: AdminReportsPageComponent },
+      { path: 'provider-quotas', component: AdminProviderQuotaPageComponent },
     ]
   }
 ];
@@ -41,6 +43,7 @@ const routes: Routes = [
     AdminFeaturedPageComponent,
     AdminAdsPageComponent,
     AdminReportsPageComponent,
+    AdminProviderQuotaPageComponent,
   ],
   imports: [SharedModule, FormsModule, RouterModule.forChild(routes)]
 })

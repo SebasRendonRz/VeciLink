@@ -9,10 +9,12 @@ namespace VeciLink.Api.Services;
 public class RatingService : IRatingService
 {
     private readonly VeciLinkDbContext _context;
+    private readonly INotificationService _notificationService;
 
-    public RatingService(VeciLinkDbContext context)
+    public RatingService(VeciLinkDbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
     public async Task<RatingDto> CreateRatingAsync(int userId, CreateRatingDto dto)
@@ -43,6 +45,16 @@ public class RatingService : IRatingService
             service.ProviderProfile.RatingCount   = allStars.Count;
             service.ProviderProfile.RatingAverage = allStars.Average();
             await _context.SaveChangesAsync();
+
+            // Notificar al prestador
+            var citizen = await _context.Users.FindAsync(userId);
+            var stars = new string('★', dto.Stars) + new string('☆', 5 - dto.Stars);
+            await _notificationService.CreateNotificationAsync(
+                service.ProviderProfile.UserId,
+                "Nueva calificación recibida",
+                $"{citizen?.FullName ?? "Un ciudadano"} calificó tu servicio '{service.ServiceName}' con {stars}.",
+                NotificationType.Info
+            );
         }
 
         var user = await _context.Users.FindAsync(userId);

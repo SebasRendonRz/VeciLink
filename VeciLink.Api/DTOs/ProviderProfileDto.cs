@@ -15,8 +15,22 @@ public class ProviderProfileDto
     public int RatingCount { get; set; }
     public bool IsFeatured { get; set; }
     public string? PhotoUrl { get; set; }
+    public int MaxServicesAllowed { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+}
+
+public class ProviderQuotaDto
+{
+    public int ProviderProfileId { get; set; }
+    public int MaxServicesAllowed { get; set; }
+    public int ActiveServicesCount { get; set; }
+    public int RemainingSlots { get; set; }
+}
+
+public class UpdateProviderQuotaDto
+{
+    public int MaxServicesAllowed { get; set; }
 }
 
 public class CreateProviderProfileDto

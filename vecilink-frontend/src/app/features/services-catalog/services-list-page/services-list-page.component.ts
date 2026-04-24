@@ -92,10 +92,18 @@ export class ServicesListPageComponent implements OnInit {
   }
 
   onFavoriteToggled(service: ServiceItem): void {
+    const user = this.authService.getCurrentUser();
+    if (!user) return;
     if (this.favoriteIds.has(service.id)) {
-      this.favoriteIds.delete(service.id);
+      this.favoriteService.removeFavorite(user.id, service.id).subscribe(() => {
+        this.favoriteIds.delete(service.id);
+        this.cdr.markForCheck();
+      });
     } else {
-      this.favoriteIds.add(service.id);
+      this.favoriteService.addFavorite(user.id, service.id).subscribe(() => {
+        this.favoriteIds.add(service.id);
+        this.cdr.markForCheck();
+      });
     }
   }
 

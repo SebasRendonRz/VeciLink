@@ -14,17 +14,29 @@ import { ServiceRequest } from '../../../core/models';
 export class ProviderRequestsHistoryComponent implements OnInit {
   requests: ServiceRequest[] = [];
   isLoading = true;
+  updatingId: number | null = null;
 
   statusLabels: Record<string, string> = {
-    pending: 'Pendiente',
-    contacted: 'Contactado',
-    closed: 'Cerrado'
+    Pending: 'Pendiente',
+    Contacted: 'Contactado',
+    Closed: 'Cerrado'
   };
 
   statusBadge: Record<string, string> = {
-    pending: 'bg-warning text-dark',
-    contacted: 'bg-info text-dark',
-    closed: 'bg-success'
+    Pending: 'bg-warning text-dark',
+    Contacted: 'bg-info text-dark',
+    Closed: 'bg-success'
+  };
+
+  nextStatus: Record<string, { value: ServiceRequest['status']; label: string; css: string }[]> = {
+    Pending: [
+      { value: 'Contacted', label: 'Marcar contactado', css: 'btn-outline-info' },
+      { value: 'Closed',    label: 'Cerrar',            css: 'btn-outline-success' }
+    ],
+    Contacted: [
+      { value: 'Closed',   label: 'Cerrar',             css: 'btn-outline-success' }
+    ],
+    Closed: []
   };
 
   constructor(
@@ -33,6 +45,17 @@ export class ProviderRequestsHistoryComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {}
+
+  changeStatus(req: ServiceRequest, status: ServiceRequest['status']): void {
+    this.updatingId = req.id;
+    this.requestHistoryService.updateRequestStatus(req.id, status).subscribe({
+      next: () => {
+        req.status = status;
+        this.updatingId = null;
+      },
+      error: () => { this.updatingId = null; }
+    });
+  }
 
   ngOnInit(): void {
     const user = this.authService.getCurrentUser();

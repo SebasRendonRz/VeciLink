@@ -14,6 +14,7 @@ export class AdminSidebarComponent {
     { label: 'Dashboard', icon: 'bi-grid', route: '/admin' },
     { label: 'Usuarios', icon: 'bi-people', route: '/admin/users' },
     { label: 'Servicios', icon: 'bi-briefcase', route: '/admin/services' },
+    { label: 'Cupos prestadores', icon: 'bi-sliders', route: '/admin/provider-quotas' },
     { label: 'Categorías', icon: 'bi-tags', route: '/admin/categories' },
     { label: 'Destacados', icon: 'bi-patch-check', route: '/admin/featured' },
     { label: 'Publicidad', icon: 'bi-megaphone', route: '/admin/ads' },

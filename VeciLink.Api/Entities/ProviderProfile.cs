@@ -16,6 +16,7 @@ public class ProviderProfile
     public int RatingCount { get; set; } = 0;
     public bool IsFeatured { get; set; } = false;
     public string? PhotoUrl { get; set; }
+    public int MaxServicesAllowed { get; set; } = 1;
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 

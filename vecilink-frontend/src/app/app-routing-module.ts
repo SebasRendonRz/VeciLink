@@ -45,6 +45,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule)
   },
+  // Historial de solicitudes - ciudadano
+  {
+    path: 'my-requests',
+    canActivate: [AuthGuard, RoleGuard],
+    data: { role: 'citizen' },
+    loadChildren: () => import('./features/my-requests/my-requests.module').then(m => m.MyRequestsModule)
+  },
   // Rutas privadas - prestador
   {
     path: 'provider',

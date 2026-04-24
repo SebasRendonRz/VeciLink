@@ -5,7 +5,7 @@ import { ServiceCatalogService } from '../../../core/services/service-catalog.se
 import { CategoryService } from '../../../core/services/category.service';
 import { ProviderService } from '../../../core/services/provider.service';
 import { AuthService } from '../../../core/services/auth.service';
-import { Category, ProviderProfile } from '../../../core/models';
+import { Category, ProviderProfile, ProviderQuota } from '../../../core/models';
 
 @Component({
   selector: 'app-provider-service-form',
@@ -17,6 +17,7 @@ export class ProviderServiceFormComponent implements OnInit {
   form!: FormGroup;
   categories: Category[] = [];
   provider: ProviderProfile | undefined;
+  quota: ProviderQuota | null = null;
   isEditMode = false;
   editServiceId: number | null = null;
   isLoading = true;
@@ -71,23 +72,30 @@ export class ProviderServiceFormComponent implements OnInit {
           availability: p.availability
         });
 
+        // Load quota info for non-edit mode
+        if (!this.isEditMode) {
+          this.providerService.getProviderQuota(p.id).subscribe(q => {
+            this.quota = q;
+          });
+        }
+
         if (this.isEditMode && this.editServiceId !== null) {
-          this.catalogService.getServicesByProvider(p.id).subscribe(services => {
-            const svc = services.find(s => s.id === this.editServiceId);
-            if (svc) {
-              this.form.patchValue({
-                serviceName: svc.serviceName,
-                categoryId: svc.categoryId,
-                description: svc.description,
-                neighborhood: svc.neighborhood,
-                zone: svc.zone || '',
-                whatsapp: svc.whatsapp,
-                schedule: svc.schedule,
-                availability: svc.availability,
-                price: svc.price ?? null,
-                photoUrl: (svc.photos && svc.photos.length > 0) ? svc.photos[0] : ''
-              });
-            }
+          this.catalogService.getServiceDetail(this.editServiceId).subscribe(svc => {
+            const firstPhoto = svc.photos && svc.photos.length > 0
+              ? ((svc.photos[0] as any).imageUrl ?? svc.photos[0])
+              : '';
+            this.form.patchValue({
+              serviceName: svc.serviceName,
+              categoryId: svc.categoryId,
+              description: svc.description,
+              neighborhood: svc.neighborhood,
+              zone: svc.zone || '',
+              whatsapp: svc.whatsapp,
+              schedule: svc.schedule,
+              availability: svc.availability,
+              price: svc.price ?? null,
+              photoUrl: firstPhoto
+            });
             this.isLoading = false;
           });
         } else {
@@ -149,8 +157,9 @@ export class ProviderServiceFormComponent implements OnInit {
           this.isSaving = false;
           setTimeout(() => this.router.navigate(['/provider/services']), 1200);
         },
-        error: () => {
-          this.errorMessage = 'Error al crear el servicio.';
+        error: (err) => {
+          const msg: string = err?.error?.message ?? '';
+          this.errorMessage = msg || 'Error al crear el servicio.';
           this.isSaving = false;
         }
       });

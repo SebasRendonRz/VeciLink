@@ -6,4 +6,5 @@ export interface Rating {
   comment: string;
   createdAt: string;
   userName?: string;
+  userFullName?: string;
 }

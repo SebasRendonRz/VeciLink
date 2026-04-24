@@ -9,10 +9,12 @@ namespace VeciLink.Api.Services;
 public class ServiceRequestService : IServiceRequestService
 {
     private readonly VeciLinkDbContext _context;
+    private readonly INotificationService _notificationService;
 
-    public ServiceRequestService(VeciLinkDbContext context)
+    public ServiceRequestService(VeciLinkDbContext context, INotificationService notificationService)
     {
         _context = context;
+        _notificationService = notificationService;
     }
 
     public async Task<ServiceRequestDto> CreateRequestAsync(int userId, CreateServiceRequestDto dto)
@@ -26,16 +28,41 @@ public class ServiceRequestService : IServiceRequestService
         _context.ServiceRequests.Add(request);
         await _context.SaveChangesAsync();
 
-        return await LoadDto(request.Id);
+        var result = await LoadDto(request.Id);
+
+        // Notificar al prestador
+        var service = await _context.Services
+            .Include(s => s.ProviderProfile)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == dto.ServiceId);
+
+        if (service?.ProviderProfile is not null)
+        {
+            var citizen = await _context.Users.FindAsync(userId);
+            await _notificationService.CreateNotificationAsync(
+                service.ProviderProfile.UserId,
+                "Nueva solicitud de contacto",
+                $"{citizen?.FullName ?? "Un ciudadano"} se ha contactado por tu servicio '{service.ServiceName}'.",
+                NotificationType.Success
+            );
+        }
+
+        return result;
     }
 
-    public async Task<List<ServiceRequestDto>> GetMyHistoryAsync(int userId)
+    public async Task<List<ServiceRequestDto>> GetMyHistoryAsync(int userId, int? categoryId = null)
     {
-        return await _context.ServiceRequests
+        var query = _context.ServiceRequests
             .AsNoTracking()
             .Include(r => r.User)
             .Include(r => r.Service).ThenInclude(s => s.ProviderProfile)
-            .Where(r => r.UserId == userId)
+            .Include(r => r.Service).ThenInclude(s => s.Category)
+            .Where(r => r.UserId == userId);
+
+        if (categoryId.HasValue)
+            query = query.Where(r => r.Service.CategoryId == categoryId.Value);
+
+        return await query
             .OrderByDescending(r => r.CreatedAt)
             .Select(r => MapToDto(r))
             .ToListAsync();
@@ -78,6 +105,18 @@ public class ServiceRequestService : IServiceRequestService
         request.UpdatedAt = DateTime.UtcNow;
         await _context.SaveChangesAsync();
 
+        // Si el prestador cierra la solicitud, notificar al ciudadano
+        if (isProvider && dto.Status == ServiceRequestStatus.Closed)
+        {
+            var providerName = service?.ProviderProfile?.ProviderName ?? "El prestador";
+            await _notificationService.CreateNotificationAsync(
+                request.UserId,
+                "Solicitud cerrada",
+                $"{providerName} ha cerrado tu solicitud para el servicio '{service?.ServiceName}'.",
+                NotificationType.Info
+            );
+        }
+
         return await LoadDto(request.Id);
     }
 
@@ -86,6 +125,7 @@ public class ServiceRequestService : IServiceRequestService
         var r = await _context.ServiceRequests
             .Include(r => r.User)
             .Include(r => r.Service).ThenInclude(s => s.ProviderProfile)
+            .Include(r => r.Service).ThenInclude(s => s.Category)
             .FirstAsync(r => r.Id == id);
         return MapToDto(r);
     }
@@ -98,6 +138,8 @@ public class ServiceRequestService : IServiceRequestService
         ServiceId    = r.ServiceId,
         ServiceName  = r.Service?.ServiceName,
         ProviderName = r.Service?.ProviderProfile?.ProviderName,
+        CategoryId   = r.Service?.CategoryId,
+        CategoryName = r.Service?.Category?.Name,
         Status       = r.Status,
         CreatedAt    = r.CreatedAt,
         UpdatedAt    = r.UpdatedAt

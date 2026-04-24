@@ -8,6 +8,7 @@ import { CategoriesGridComponent } from './categories-grid/categories-grid.compo
 import { FeaturedServicesSectionComponent } from './featured-services-section/featured-services-section.component';
 import { TopProvidersSectionComponent } from './top-providers-section/top-providers-section.component';
 import { AdsBannerComponent } from './ads-banner/ads-banner.component';
+import { PremiumSectionComponent } from './premium-section/premium-section.component';
 
 const routes: Routes = [{ path: '', component: HomePageComponent }];
 
@@ -18,7 +19,8 @@ const routes: Routes = [{ path: '', component: HomePageComponent }];
     CategoriesGridComponent,
     FeaturedServicesSectionComponent,
     TopProvidersSectionComponent,
-    AdsBannerComponent
+    AdsBannerComponent,
+    PremiumSectionComponent
   ],
   imports: [SharedModule, FormsModule, RouterModule.forChild(routes)]
 })

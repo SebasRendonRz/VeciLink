@@ -169,6 +169,9 @@ namespace VeciLink.Api.Migrations
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("bit");
 
+                    b.Property<int>("MaxServicesAllowed")
+                        .HasColumnType("int");
+
                     b.Property<string>("Neighborhood")
                         .HasColumnType("nvarchar(max)");
 

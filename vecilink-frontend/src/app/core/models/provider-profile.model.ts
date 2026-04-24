@@ -11,4 +11,12 @@ export interface ProviderProfile {
   ratingAverage?: number;
   isFeatured: boolean;
   photoUrl?: string;
+  maxServicesAllowed?: number;
+}
+
+export interface ProviderQuota {
+  providerProfileId: number;
+  maxServicesAllowed: number;
+  activeServicesCount: number;
+  remainingSlots: number;
 }

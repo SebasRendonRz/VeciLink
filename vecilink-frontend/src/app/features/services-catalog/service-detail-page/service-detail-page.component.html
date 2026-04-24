@@ -104,7 +104,8 @@
           <!-- WhatsApp -->
           <app-whatsapp-button [phone]="service.whatsapp ?? ''"
             message="Hola, vi tu servicio '{{ service.serviceName }}' en VeciLink y me gustaría más información."
-            label="Contactar por WhatsApp">
+            label="Contactar por WhatsApp"
+            (click)="onContactProvider()">
           </app-whatsapp-button>
 
           <!-- Comentarios / Calificaciones -->

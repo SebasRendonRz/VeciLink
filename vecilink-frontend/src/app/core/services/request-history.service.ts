@@ -20,11 +20,19 @@ export class RequestHistoryService extends ApiBaseService {
     return this.unwrap(this.http.get<ApiResponse<ServiceRequest[]>>(`${this.baseUrl}/service-requests/provider-history`));
   }
 
+  getMyHistory(categoryId?: number): Observable<ServiceRequest[]> {
+    const params: Record<string, string> = {};
+    if (categoryId != null) params['categoryId'] = categoryId.toString();
+    return this.unwrap(this.http.get<ApiResponse<ServiceRequest[]>>(
+      `${this.baseUrl}/service-requests/my-history`, { params }
+    ));
+  }
+
   registerRequest(userId: number, serviceId: number): Observable<ServiceRequest> {
     return this.unwrap(this.http.post<ApiResponse<ServiceRequest>>(`${this.baseUrl}/service-requests`, { userId, serviceId }));
   }
 
   updateRequestStatus(requestId: number, status: ServiceRequest['status']): Observable<boolean> {
-    return this.http.patch(`${this.baseUrl}/service-requests/${requestId}/status`, { status }).pipe(map(() => true));
+    return this.http.put(`${this.baseUrl}/service-requests/${requestId}/status`, { status }).pipe(map(() => true));
   }
 }

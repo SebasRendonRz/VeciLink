@@ -131,22 +131,56 @@ public class ProviderService : IProviderService
         return true;
     }
 
+    public async Task<ProviderQuotaDto?> GetProviderQuotaAsync(int providerProfileId)
+    {
+        var profile = await _context.ProviderProfiles
+            .AsNoTracking()
+            .FirstOrDefaultAsync(pp => pp.Id == providerProfileId);
+
+        if (profile is null) return null;
+
+        var activeCount = await _context.Services
+            .CountAsync(s => s.ProviderProfileId == providerProfileId && s.IsActive);
+
+        return new ProviderQuotaDto
+        {
+            ProviderProfileId  = profile.Id,
+            MaxServicesAllowed = profile.MaxServicesAllowed,
+            ActiveServicesCount = activeCount,
+            RemainingSlots     = Math.Max(0, profile.MaxServicesAllowed - activeCount)
+        };
+    }
+
+    public async Task<bool> UpdateMaxServicesAllowedAsync(int providerProfileId, int newMax)
+    {
+        if (newMax < 1) return false;
+
+        var profile = await _context.ProviderProfiles.FindAsync(providerProfileId);
+        if (profile is null) return false;
+
+        profile.MaxServicesAllowed = newMax;
+        profile.UpdatedAt = DateTime.UtcNow;
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
     private static ProviderProfileDto MapToDto(ProviderProfile pp) => new()
     {
-        Id            = pp.Id,
-        UserId        = pp.UserId,
-        ProviderName  = pp.ProviderName,
-        Description   = pp.Description,
-        Whatsapp      = pp.Whatsapp,
-        Neighborhood  = pp.Neighborhood,
-        Zone          = pp.Zone,
-        Schedule      = pp.Schedule,
-        Availability  = pp.Availability,
-        RatingAverage = pp.RatingAverage,
-        RatingCount   = pp.RatingCount,
-        IsFeatured    = pp.IsFeatured,
-        PhotoUrl      = pp.PhotoUrl,
-        CreatedAt     = pp.CreatedAt,
-        UpdatedAt     = pp.UpdatedAt
+        Id                 = pp.Id,
+        UserId             = pp.UserId,
+        ProviderName       = pp.ProviderName,
+        Description        = pp.Description,
+        Whatsapp           = pp.Whatsapp,
+        Neighborhood       = pp.Neighborhood,
+        Zone               = pp.Zone,
+        Schedule           = pp.Schedule,
+        Availability       = pp.Availability,
+        RatingAverage      = pp.RatingAverage,
+        RatingCount        = pp.RatingCount,
+        IsFeatured         = pp.IsFeatured,
+        PhotoUrl           = pp.PhotoUrl,
+        MaxServicesAllowed = pp.MaxServicesAllowed,
+        CreatedAt          = pp.CreatedAt,
+        UpdatedAt          = pp.UpdatedAt
     };
 }

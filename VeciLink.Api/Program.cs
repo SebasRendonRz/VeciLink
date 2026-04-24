@@ -17,7 +17,10 @@ var builder = WebApplication.CreateBuilder(args);
 // ─── Controllers ───────────────────────────────────────────────
 builder.Services.AddControllers()
     .AddJsonOptions(opts =>
-        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+    {
+        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        opts.JsonSerializerOptions.Converters.Add(new VeciLink.Api.Helpers.UtcDateTimeConverter());
+    });
 
 // ─── Entity Framework Core / SQL Server ────────────────────────
 builder.Services.AddDbContext<VeciLinkDbContext>(options =>

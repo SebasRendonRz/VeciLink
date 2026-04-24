@@ -15,6 +15,8 @@ public class ServiceRequestDto
     public int ServiceId { get; set; }
     public string? ServiceName { get; set; }
     public string? ProviderName { get; set; }
+    public int? CategoryId { get; set; }
+    public string? CategoryName { get; set; }
     public ServiceRequestStatus Status { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }

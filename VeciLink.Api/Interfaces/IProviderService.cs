@@ -10,4 +10,6 @@ public interface IProviderService
     Task<List<ProviderProfileDto>> GetFeaturedProvidersAsync();
     Task<List<ProviderRankingDto>> GetProviderRankingAsync();
     Task<bool> ToggleFeaturedAsync(int providerId, bool isFeatured);
+    Task<ProviderQuotaDto?> GetProviderQuotaAsync(int providerProfileId);
+    Task<bool> UpdateMaxServicesAllowedAsync(int providerProfileId, int newMax);
 }

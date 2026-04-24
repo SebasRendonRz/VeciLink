@@ -1,0 +1,74 @@
+<div class="container py-4">
+  <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
+    <h2 class="mb-0">
+      <i class="bi bi-clock-history me-2 text-primary"></i>Mis solicitudes
+    </h2>
+
+    <!-- Filtro por categoría -->
+    <div class="d-flex align-items-center gap-2">
+      <label for="categoryFilter" class="form-label mb-0 fw-semibold text-nowrap">Filtrar por categoría:</label>
+      <select id="categoryFilter" class="form-select form-select-sm" style="min-width: 180px;"
+        (change)="onCategoryChange($any($event.target).value)">
+        <option value="">Todas las categorías</option>
+        @for (cat of categories; track cat.id) {
+          <option [value]="cat.id">{{ cat.name }}</option>
+        }
+      </select>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  @if (loading) {
+    <div class="text-center py-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
+    </div>
+  }
+
+  <!-- Sin resultados -->
+  @if (!loading && requests.length === 0) {
+    <div class="text-center py-5 text-muted">
+      <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+      <p>No tienes solicitudes registradas aún.</p>
+    </div>
+  }
+
+  <!-- Tabla -->
+  @if (!loading && requests.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>#</th>
+            <th>Servicio</th>
+            <th>Prestador</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Fecha y Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (req of requests; track req.id; let i = $index) {
+            <tr>
+              <td class="text-muted small">{{ i + 1 }}</td>
+              <td class="fw-semibold">{{ req.serviceName ?? '—' }}</td>
+              <td>{{ req.providerName ?? '—' }}</td>
+              <td>
+                @if (req.categoryName) {
+                  <span class="badge bg-info text-dark">{{ req.categoryName }}</span>
+                } @else {
+                  <span class="text-muted">—</span>
+                }
+              </td>
+              <td><span [class]="getStatusClass(req.status)">{{ getStatusLabel(req.status) }}</span></td>
+              <td class="text-muted small text-nowrap">
+                {{ req.createdAt | date:'dd/MM/yyyy HH:mm' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>

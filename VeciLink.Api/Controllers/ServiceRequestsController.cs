@@ -41,10 +41,10 @@ public class ServiceRequestsController : ControllerBase
     // GET /api/service-requests/my-history — [Authorize]
     [HttpGet("my-history")]
     [Authorize]
-    public async Task<IActionResult> GetMyHistory()
+    public async Task<IActionResult> GetMyHistory([FromQuery] int? categoryId = null)
     {
         var userId = int.Parse(User.FindFirstValue("userId")!);
-        var result = await _requestService.GetMyHistoryAsync(userId);
+        var result = await _requestService.GetMyHistoryAsync(userId, categoryId);
         return Ok(ApiResponse.Ok(result));
     }
 

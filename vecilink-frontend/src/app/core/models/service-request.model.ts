@@ -1,7 +1,13 @@
 export interface ServiceRequest {
   id: number;
   userId: number;
+  userFullName?: string;
   serviceId: number;
-  status: 'pending' | 'contacted' | 'closed';
+  serviceName?: string;
+  providerName?: string;
+  categoryId?: number;
+  categoryName?: string;
+  status: 'Pending' | 'Contacted' | 'Closed';
   createdAt: string;
+  updatedAt?: string;
 }

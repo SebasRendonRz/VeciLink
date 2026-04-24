@@ -21,23 +21,38 @@
             <thead class="table-light">
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Servicio ID</th>
+                <th scope="col">Servicio</th>
+                <th scope="col">Ciudadano</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Fecha</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let req of requests">
                 <td class="text-muted small">{{ req.id }}</td>
                 <td>
-                  <span class="fw-semibold">Servicio #{{ req.serviceId }}</span>
+                  <span class="fw-semibold">{{ req.serviceName || 'Servicio #' + req.serviceId }}</span>
                 </td>
+                <td class="text-muted small">{{ req.userFullName || 'Ciudadano #' + req.userId }}</td>
                 <td>
                   <span class="badge rounded-pill" [ngClass]="statusBadge[req.status]">
                     {{ statusLabels[req.status] || req.status }}
                   </span>
                 </td>
                 <td class="text-muted small">{{ req.createdAt | date:'mediumDate' }}</td>
+                <td>
+                  <ng-container *ngFor="let action of nextStatus[req.status]">
+                    <button
+                      class="btn btn-sm me-1" [ngClass]="action.css"
+                      [disabled]="updatingId === req.id"
+                      (click)="changeStatus(req, action.value)">
+                      <span *ngIf="updatingId === req.id" class="spinner-border spinner-border-sm me-1"></span>
+                      {{ action.label }}
+                    </button>
+                  </ng-container>
+                  <span *ngIf="nextStatus[req.status].length === 0" class="text-muted small">—</span>
+                </td>
               </tr>
             </tbody>
           </table>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { ProviderProfile } from '../models';
+import { ProviderProfile, ProviderQuota } from '../models';
 import { ApiBaseService, ApiResponse } from './api-base.service';
 
 @Injectable({ providedIn: 'root' })
@@ -63,5 +63,21 @@ export class ProviderService extends ApiBaseService {
 
   setFeatured(providerId: number, isFeatured: boolean): Observable<boolean> {
     return this.http.put(`${this.baseUrl}/providers/${providerId}/featured`, null, { params: { isFeatured: isFeatured.toString() } }).pipe(map(() => true));
+  }
+
+  getProviderQuota(providerProfileId: number): Observable<ProviderQuota | null> {
+    return this.unwrap(this.http.get<ApiResponse<ProviderQuota>>(`${this.baseUrl}/providers/${providerProfileId}/quota`)).pipe(
+      catchError(() => of(null))
+    );
+  }
+
+  updateMaxServicesAllowed(providerProfileId: number, maxServicesAllowed: number): Observable<boolean> {
+    return this.http.put(
+      `${this.baseUrl}/providers/${providerProfileId}/quota`,
+      { maxServicesAllowed }
+    ).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 }

@@ -24,7 +24,8 @@ export class NavbarComponent implements OnInit {
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
       if (user) {
-        this.notificationService.countUnread(user.id).subscribe(count => {
+        this.notificationService.countUnread(user.id).subscribe();
+        this.notificationService.unreadCount$.subscribe(count => {
           this.unreadCount = count;
         });
       } else {
@@ -64,5 +65,9 @@ export class NavbarComponent implements OnInit {
 
   get isAdmin(): boolean {
     return this.currentUser?.role === 'admin';
+  }
+
+  get isCitizen(): boolean {
+    return this.currentUser?.role === 'citizen';
   }
 }

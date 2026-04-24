@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { AppNotification } from '../models';
 import { ApiBaseService, ApiResponse } from './api-base.service';
 
 @Injectable({ providedIn: 'root' })
 export class NotificationService extends ApiBaseService {
+  private _unreadCount$ = new BehaviorSubject<number>(0);
+  unreadCount$ = this._unreadCount$.asObservable();
+
   constructor(http: HttpClient) { super(http); }
 
   listNotifications(userId?: number): Observable<AppNotification[]> {
-    return this.unwrap(this.http.get<ApiResponse<AppNotification[]>>(`${this.baseUrl}/notifications`));
+    return this.unwrap(this.http.get<ApiResponse<AppNotification[]>>(`${this.baseUrl}/notifications`)).pipe(
+      tap(list => this._unreadCount$.next(list.filter(n => !n.isRead).length))
+    );
   }
 
   countUnread(userId?: number): Observable<number> {
@@ -20,10 +25,16 @@ export class NotificationService extends ApiBaseService {
   }
 
   markAsRead(notificationId: number): Observable<boolean> {
-    return this.http.patch(`${this.baseUrl}/notifications/${notificationId}/read`, {}).pipe(map(() => true));
+    return this.http.put(`${this.baseUrl}/notifications/${notificationId}/read`, {}).pipe(
+      map(() => true),
+      tap(() => this._unreadCount$.next(Math.max(0, this._unreadCount$.value - 1)))
+    );
   }
 
   markAllAsRead(userId?: number): Observable<boolean> {
-    return this.http.patch(`${this.baseUrl}/notifications/read-all`, {}).pipe(map(() => true));
+    return this.http.put(`${this.baseUrl}/notifications/read-all`, {}).pipe(
+      map(() => true),
+      tap(() => this._unreadCount$.next(0))
+    );
   }
 }

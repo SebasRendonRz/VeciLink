@@ -1,0 +1,124 @@
+/* ── Section wrapper ─────────────────────────────────────── */
+.premium-section {
+  background-color: #f8fafc;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+.premium-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-primary, #2563eb);
+  background-color: rgba(37, 99, 235, 0.08);
+  padding: 0.3rem 0.9rem;
+  border-radius: 50px;
+}
+
+.premium-title {
+  font-size: clamp(1.6rem, 4vw, 2.25rem);
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+.premium-subtitle {
+  font-size: 1rem;
+  color: #475569;
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+/* ── Cards ───────────────────────────────────────────────── */
+.premium-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon wrapper */
+.premium-icon-wrap {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.premium-icon-wrap .bi {
+  font-size: 1.75rem;
+}
+
+.icon-gold  { color: #f59e0b; }
+.icon-blue  { color: #3b82f6; }
+.icon-green { color: #22c55e; }
+
+.premium-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.premium-card-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* ── Contact block ───────────────────────────────────────── */
+.premium-contact-block {
+  max-width: 680px;
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.contact-question {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.contact-link {
+  font-size: 0.95rem;
+  color: #334155;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.15s;
+}
+
+.contact-link:hover {
+  color: var(--color-primary, #2563eb);
+}
+
+/* ── WhatsApp button ─────────────────────────────────────── */
+.btn-whatsapp {
+  background-color: #25d366;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.btn-whatsapp:hover {
+  background-color: #1ebe5b;
+  color: #ffffff;
+  transform: translateY(-1px);
+}

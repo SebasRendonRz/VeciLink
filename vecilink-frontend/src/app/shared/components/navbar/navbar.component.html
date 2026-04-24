@@ -51,6 +51,15 @@
           </a>
         </li>
 
+        <!-- Mis solicitudes - solo ciudadano -->
+        @if (isCitizen) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/my-requests" routerLinkActive="active" (click)="closeMenu()">
+            <i class="bi bi-clock-history me-1"></i>Mis solicitudes
+          </a>
+        </li>
+        }
+
         <!-- Panel prestador -->
         @if (isProvider) {
         <li class="nav-item">

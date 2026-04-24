@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using VeciLink.Api.Data;
 using VeciLink.Api.DTOs;
 using VeciLink.Api.Entities;
+using VeciLink.Api.Helpers;
 using VeciLink.Api.Interfaces;
 
 namespace VeciLink.Api.Services;
@@ -78,8 +79,33 @@ public class ServiceService : IServiceService
     public async Task<ServiceDetailDto> CreateServiceAsync(int userId, CreateServiceDto dto)
     {
         var profile = await _context.ProviderProfiles
+            .Include(pp => pp.Services.Where(s => s.IsActive))
             .FirstOrDefaultAsync(pp => pp.UserId == userId)
             ?? throw new InvalidOperationException("El prestador no tiene un perfil creado.");
+
+        // Regla 1/2 — límite de cupo
+        int activeCount = profile.Services.Count;
+        if (activeCount >= profile.MaxServicesAllowed)
+            throw new InvalidOperationException(
+                "Has alcanzado el número máximo de servicios permitidos para tu perfil.");
+
+        // Regla 3 — categoría duplicada
+        bool categoryTaken = profile.Services.Any(s => s.CategoryId == dto.CategoryId);
+        if (categoryTaken)
+            throw new InvalidOperationException(
+                "Ya tienes un servicio registrado en esta categoría.");
+
+        // Regla 4 — nombre similar (umbral 70%)
+        const double SimilarityThreshold = 0.70;
+        string newNameNorm = LevenshteinHelper.Normalize(dto.ServiceName);
+        foreach (var existing in profile.Services)
+        {
+            string existingNorm = LevenshteinHelper.Normalize(existing.ServiceName);
+            double sim = LevenshteinHelper.Similarity(newNameNorm, existingNorm);
+            if (sim >= SimilarityThreshold)
+                throw new InvalidOperationException(
+                    "El nombre del servicio es muy similar a uno que ya tienes publicado.");
+        }
 
         var service = new Service
         {
